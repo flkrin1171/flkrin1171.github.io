@@ -1,1496 +1,705 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فلكرين - ビジュアルノベルブログ</title>
-    
-    <!-- Tailwind CSS -->
+    <title>فلكرين - مدونة الفيجوال نوفل والترجمة</title>
+    <meta name="description" content="فلكرين - مدونة متخصصة في ترجمة الألعاب، الفيجوال نوفل، ومشاركة تجارب الألعاب اليابانية">
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- Google Fonts - مزيج من خطوط عربية ويابانية -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=M+PLUS+Rounded+1c:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Marked for Markdown -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
     <style>
-        /* متغيرات الألوان - مستوحاة من Purple Yard */
+        /* متغيرات الألوان */
         :root {
-            --bg-dark: #0a0c0f;
-            --bg-card: #1a1d24;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --accent-purple: #a78bfa;
-            --accent-pink: #f472b6;
-            --accent-cyan: #5eead4;
-            --border-color: #2d3748;
-            --neon-glow: 0 0 10px rgba(167, 139, 250, 0.3);
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --bg-opacity: 0.95;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Cairo', 'M PLUS Rounded 1c', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
+        body { 
+            font-family: 'Cairo', sans-serif;
+            position: relative;
             min-height: 100vh;
-            position: relative;
         }
 
-        /* خلفية متحركة مستوحاة من Purple Yard */
-        .animated-bg {
+        /* طبقة الخلفية */
+        .background-layer {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             z-index: -2;
-            background: linear-gradient(125deg, #0a0c0f 0%, #1a1d24 50%, #2d1f3a 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 20s ease infinite;
+            transition: background-image 0.5s ease;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* تأثير الجسيمات العائمة (مستوحى من الرموز اليابانية) */
-        .floating-particles {
+        .background-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
             z-index: -1;
-            opacity: 0.15;
+            transition: background-color 0.3s ease;
         }
 
-        .particle {
-            position: absolute;
-            color: var(--accent-purple);
-            font-size: 1.5rem;
-            animation: floatParticle 20s infinite linear;
-            user-select: none;
-        }
-
-        @keyframes floatParticle {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-
-        /* تصميم البطاقات - مستوحى من Purple Yard */
-        .yard-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            transition: all 0.3s ease;
+        /* تحسين الشفافية للعناصر */
+        .content-wrapper {
             position: relative;
-            overflow: hidden;
+            z-index: 1;
         }
 
-        .yard-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-purple);
-            box-shadow: var(--neon-glow);
+        .bg-white {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
         }
 
-        .yard-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-purple), var(--accent-pink), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.5s ease;
+        .gradient-bg { 
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            backdrop-filter: blur(10px);
         }
 
-        .yard-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        /* الهيدر - بسيط مثل Purple Yard */
-        .yard-header {
-            background: rgba(10, 12, 15, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        /* الأزرار */
-        .yard-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.5rem 1.5rem;
-            border-radius: 2rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .yard-btn:hover {
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
-            box-shadow: var(--neon-glow);
-        }
-
-        .yard-btn-primary {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-            border: none;
-            color: white;
-        }
-
-        .yard-btn-primary:hover {
-            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
-            color: white;
-            transform: scale(1.05);
-        }
-
-        /* تاغ التصنيف */
-        .yard-tag {
-            display: inline-block;
-            padding: 0.25rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            background: rgba(167, 139, 250, 0.1);
-            border: 1px solid var(--accent-purple);
-            color: var(--accent-purple);
-        }
-
-        /* عنوان القسم */
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            right: 0;
-            width: 50%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-purple), transparent);
-        }
-
-        /* الفوتر */
-        .yard-footer {
-            background: var(--bg-card);
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-
-        /* النصوص القابلة للتعديل */
-        .editable {
+        /* تأثيرات التعديل */
+        .editable { 
             transition: all 0.2s;
+            position: relative;
+        }
+        .editable:hover { 
+            outline: 3px dashed var(--primary-color); 
+            cursor: pointer; 
+            background-color: rgba(79, 70, 229, 0.1); 
             border-radius: 0.5rem;
         }
-
-        .editable:hover {
-            outline: 2px dashed var(--accent-purple);
-            background: rgba(167, 139, 250, 0.1);
-        }
-
-        .edit-mode .editable {
-            outline: 2px solid var(--accent-pink);
-            background: rgba(244, 114, 182, 0.1);
-        }
-
-        /* شريط الأدمن */
-        .admin-toolbar {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .admin-btn {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .admin-btn:hover {
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
-            transform: scale(1.1);
-        }
-
-        /* المودالات */
-        .yard-modal {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        /* حقول الإدخال */
-        .yard-input {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            padding: 0.75rem 1rem;
-            color: var(--text-primary);
-            width: 100%;
-            transition: all 0.3s;
-        }
-
-        .yard-input:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: var(--neon-glow);
+        .edit-mode .editable { 
+            outline: 3px solid var(--primary-color); 
+            background-color: rgba(79, 70, 229, 0.15); 
+            border-radius: 0.5rem;
+            padding: 0.25rem;
         }
 
         /* معرض الصور */
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
+            margin: 1rem 0;
         }
-
         .gallery-item {
             position: relative;
-            border-radius: 1rem;
+            border-radius: 0.5rem;
             overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s;
+            transition: transform 0.3s;
         }
-
         .gallery-item:hover {
-            border-color: var(--accent-purple);
             transform: scale(1.05);
         }
-
         .gallery-item img {
             width: 100%;
-            height: 120px;
+            height: 150px;
             object-fit: cover;
+            margin: 0;
         }
-
         .gallery-item-overlay {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 0.5rem;
             display: flex;
-            align-items: center;
             justify-content: center;
+            gap: 0.5rem;
             opacity: 0;
             transition: opacity 0.3s;
         }
-
         .gallery-item:hover .gallery-item-overlay {
             opacity: 1;
         }
-
         .gallery-item button {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
             background: white;
             border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+        .gallery-item button:hover {
+            transform: scale(1.1);
+            background: var(--primary-color);
+            color: white;
         }
 
-        /* زر تعديل الصورة */
+        /* أزرار تعديل الصور */
         .image-edit-btn {
             position: absolute;
-            bottom: 0.5rem;
-            left: 0.5rem;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            background: var(--accent-purple);
+            bottom: 10px;
+            left: 10px;
+            background: var(--primary-color);
             color: white;
-            border: 2px solid white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             opacity: 0;
             transition: opacity 0.3s;
+            border: 2px solid white;
             z-index: 10;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
         }
 
         .image-container:hover .image-edit-btn {
             opacity: 1;
         }
 
-        /* علامة المخفي */
-        .hidden-badge {
-            background: #ef4444;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-            font-weight: bold;
-            position: absolute;
-            top: 0.5rem;
-            left: 0.5rem;
-            z-index: 5;
-        }
-
-        /* معرض الخلفيات */
-        .bg-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .bg-item {
+        /* معاينة الخلفية */
+        .background-preview {
+            width: 100%;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
             border-radius: 0.5rem;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .bg-item:hover {
-            border-color: var(--accent-purple);
-            transform: scale(1.05);
-        }
-
-        .bg-item.active {
-            border-color: var(--accent-purple);
-            box-shadow: var(--neon-glow);
-        }
-
-        .bg-item img {
-            width: 100%;
-            height: 60px;
-            object-fit: cover;
-        }
-
-        /* صفحة قراءة المقال */
-        .article-page {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .article-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .article-title {
-            font-size: 2.5rem;
-            font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--accent-purple);
-            line-height: 1.3;
+            border: 2px solid var(--primary-color);
         }
 
-        .article-meta {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .article-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .article-meta-item i {
-            color: var(--accent-cyan);
-        }
-
-        .article-featured-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 1.5rem;
-            margin: 2rem 0;
-            border: 1px solid var(--border-color);
-        }
-
-        .article-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-        }
-
-        .article-content h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 2rem 0 1rem;
-            color: var(--accent-pink);
-        }
-
-        .article-content h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent-cyan);
-        }
-
-        .article-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        .article-content img {
-            max-width: 100%;
+        /* تحسينات التصميم */
+        .static-page {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
-            margin: 1.5rem 0;
-            border: 1px solid var(--border-color);
-        }
-
-        .article-content blockquote {
-            border-right: 4px solid var(--accent-purple);
-            padding: 1rem 2rem;
-            margin: 2rem 0;
-            background: rgba(167, 139, 250, 0.1);
-            border-radius: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .article-footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .back-btn {
-            color: var(--text-secondary);
-            transition: color 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .back-btn:hover {
-            color: var(--accent-purple);
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .share-btn {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-        }
-
-        .share-btn:hover {
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
-            transform: translateY(-3px);
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body>
-    <!-- خلفية متحركة -->
-    <div class="animated-bg"></div>
+<body class="font-cairo text-dark">
+    <!-- طبقة الخلفية -->
+    <div id="background-layer" class="background-layer"></div>
+    <div id="background-overlay" class="background-overlay" style="background-color: rgba(255, 255, 255, 0.95);"></div>
 
-    <!-- جسيمات عائمة (مستوحاة من الرموز اليابانية) -->
-    <div class="floating-particles" id="floatingParticles"></div>
-
-    <!-- شريط الأدمن (يظهر فقط بعد تسجيل الدخول) -->
-    <div id="adminToolbar" class="admin-toolbar hidden">
-        <button class="admin-btn" onclick="toggleEditMode()" title="تعديل النصوص">
-            <i class="fas fa-edit"></i>
+    <!-- Admin Toolbar -->
+    <div id="admin-toolbar" class="hidden fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+        <button id="toggle-edit-mode" class="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-secondary transition duration-300" title="تعديل النصوص">
+            <i class="fas fa-edit text-xl"></i>
         </button>
-        <button class="admin-btn" onclick="openArticleModal()" title="إضافة مقال">
-            <i class="fas fa-plus"></i>
+        <button id="quick-add-article" class="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition duration-300" title="إضافة مقال">
+            <i class="fas fa-plus text-xl"></i>
         </button>
-        <button class="admin-btn" onclick="openImageLibrary()" title="مكتبة الصور">
-            <i class="fas fa-images"></i>
+        <button id="manage-images" class="bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition duration-300" title="مكتبة الصور">
+            <i class="fas fa-images text-xl"></i>
         </button>
-        <button class="admin-btn" onclick="openCategoryModal()" title="إدارة التصنيفات">
-            <i class="fas fa-tags"></i>
+        <button id="manage-categories" class="bg-orange-600 text-white p-3 rounded-full shadow-lg hover:bg-orange-700 transition duration-300" title="إدارة التصنيفات">
+            <i class="fas fa-tags text-xl"></i>
         </button>
-        <button class="admin-btn" onclick="openBgSettings()" title="إعدادات الخلفية">
-            <i class="fas fa-palette"></i>
+        <button id="manage-site-settings" class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-300" title="إعدادات الموقع">
+            <i class="fas fa-cog text-xl"></i>
         </button>
-        <button class="admin-btn" onclick="logout()" title="تسجيل الخروج">
-            <i class="fas fa-sign-out-alt"></i>
+        <button id="manage-background" class="bg-pink-600 text-white p-3 rounded-full shadow-lg hover:bg-pink-700 transition duration-300" title="تغيير الخلفية">
+            <i class="fas fa-image text-xl"></i>
+        </button>
+        <button id="logout-btn" class="bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition duration-300" title="تسجيل الخروج">
+            <i class="fas fa-sign-out-alt text-xl"></i>
         </button>
     </div>
 
-    <!-- الحاوية الرئيسية -->
-    <div class="min-h-screen flex flex-col">
-        <!-- الهيدر - بسيط مثل Purple Yard -->
-        <header class="yard-header sticky top-0 z-40">
-            <nav class="container mx-auto px-4 py-4">
-                <div class="flex items-center justify-between">
-                    <!-- الشعار -->
-                    <div class="flex items-center gap-2 cursor-pointer" onclick="showHomePage()">
-                        <i class="fas fa-dragon text-2xl" style="color: var(--accent-purple);"></i>
-                        <h1 id="siteTitle" class="text-xl font-bold editable" data-section="site" data-field="title">فلكرين</h1>
+    <!-- Edit Panel -->
+    <div id="edit-panel" class="hidden fixed top-0 left-0 w-96 h-full bg-white shadow-2xl z-50 p-6 overflow-y-auto border-l-4 border-primary">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-primary">لوحة التحرير</h3>
+            <button id="close-edit-panel" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div id="edit-content"></div>
+    </div>
+
+    <!-- Background Settings Modal -->
+    <div id="background-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-primary">إعدادات الخلفية</h3>
+                <button id="close-background-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- معاينة الخلفية الحالية -->
+            <div class="mb-6">
+                <h4 class="font-bold mb-2">معاينة الخلفية الحالية:</h4>
+                <div id="current-background-preview" class="background-preview"></div>
+            </div>
+            
+            <!-- خيارات الخلفية -->
+            <div class="space-y-6">
+                <!-- صورة خلفية مخصصة -->
+                <div class="p-4 border rounded-lg">
+                    <h4 class="font-bold mb-4">صورة خلفية مخصصة</h4>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <input type="text" id="background-image-url" 
+                                   class="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
+                                   placeholder="رابط الصورة">
+                            <button id="select-background-image" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                                <i class="fas fa-image ml-2"></i>اختر من المكتبة
+                            </button>
+                        </div>
+                        <button id="apply-background" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-secondary">
+                            تطبيق الخلفية
+                        </button>
                     </div>
+                </div>
+                
+                <!-- خلفيات افتراضية -->
+                <div class="p-4 border rounded-lg">
+                    <h4 class="font-bold mb-4">خلفيات افتراضية</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="cursor-pointer preset-bg" data-bg="https://picsum.photos/1920/1080?random=100">
+                            <div class="h-24 rounded-lg bg-cover bg-center" style="background-image: url('https://picsum.photos/300/200?random=100')"></div>
+                            <p class="text-center text-sm mt-1">طبيعة</p>
+                        </div>
+                        <div class="cursor-pointer preset-bg" data-bg="https://picsum.photos/1920/1080?random=101">
+                            <div class="h-24 rounded-lg bg-cover bg-center" style="background-image: url('https://picsum.photos/300/200?random=101')"></div>
+                            <p class="text-center text-sm mt-1">مدينة</p>
+                        </div>
+                        <div class="cursor-pointer preset-bg" data-bg="https://picsum.photos/1920/1080?random=102">
+                            <div class="h-24 rounded-lg bg-cover bg-center" style="background-image: url('https://picsum.photos/300/200?random=102')"></div>
+                            <p class="text-center text-sm mt-1">فضاء</p>
+                        </div>
+                        <div class="cursor-pointer preset-bg" data-bg="https://picsum.photos/1920/1080?random=103">
+                            <div class="h-24 rounded-lg bg-cover bg-center" style="background-image: url('https://picsum.photos/300/200?random=103')"></div>
+                            <p class="text-center text-sm mt-1">تجريدي</p>
+                        </div>
+                        <div class="cursor-pointer preset-bg" data-bg="https://picsum.photos/1920/1080?random=104">
+                            <div class="h-24 rounded-lg bg-cover bg-center" style="background-image: url('https://picsum.photos/300/200?random=104')"></div>
+                            <p class="text-center text-sm mt-1">ألعاب</p>
+                        </div>
+                        <div class="cursor-pointer preset-bg" data-bg="https://picsum.photos/1920/1080?random=105">
+                            <div class="h-24 rounded-lg bg-cover bg-center" style="background-image: url('https://picsum.photos/300/200?random=105')"></div>
+                            <p class="text-center text-sm mt-1">أنمي</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- شفافية الخلفية -->
+                <div class="p-4 border rounded-lg">
+                    <h4 class="font-bold mb-4">شفافية الخلفية</h4>
+                    <div class="space-y-4">
+                        <input type="range" id="bg-opacity" min="0.5" max="1" step="0.05" value="0.95" class="w-full">
+                        <div class="flex justify-between text-sm">
+                            <span>شفاف</span>
+                            <span>معتم</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- قائمة التنقل -->
-                    <ul class="hidden md:flex items-center gap-6">
-                        <li><a href="#" onclick="showHomePage(); return false;" class="hover:text-accent-purple transition text-sm">الرئيسية</a></li>
-                        <li><a href="#" onclick="showPage('about'); return false;" class="hover:text-accent-purple transition text-sm">عن فلكرين</a></li>
-                        <li><a href="#" onclick="showPage('contact'); return false;" class="hover:text-accent-purple transition text-sm">اتصل بي</a></li>
-                        <li><a href="#" onclick="showPage('privacy'); return false;" class="hover:text-accent-purple transition text-sm">الخصوصية</a></li>
-                        <li><a href="#" onclick="showPage('terms'); return false;" class="hover:text-accent-purple transition text-sm">الشروط</a></li>
-                    </ul>
+    <!-- Image Library Modal -->
+    <div id="image-library-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-primary">مكتبة الصور</h3>
+                <button id="close-image-library" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Image Upload -->
+            <div class="mb-8 p-6 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                <h4 class="text-lg font-bold mb-2">رفع صورة جديدة</h4>
+                <p class="text-sm text-gray-500 mb-4">يمكنك رفع صور JPG, PNG, GIF (الحد الأقصى 5 ميجابايت)</p>
+                
+                <div class="flex flex-col items-center gap-4">
+                    <input type="file" id="image-upload" accept="image/*" class="hidden">
+                    <button id="select-image-btn" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary">
+                        <i class="fas fa-folder-open ml-2"></i>اختر صورة
+                    </button>
+                    <div id="upload-preview" class="hidden">
+                        <img id="preview-img" src="" alt="Preview" class="max-h-48 rounded-lg mb-2">
+                        <button id="confirm-upload" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                            <i class="fas fa-check ml-2"></i>تأكيد الرفع
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Image Gallery -->
+            <div>
+                <h4 class="text-lg font-bold mb-4">الصور المرفوعة</h4>
+                <div id="image-gallery" class="image-gallery"></div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- زر تسجيل الدخول -->
-                    <button id="loginBtn" class="yard-btn yard-btn-primary text-sm" onclick="openLoginModal()">
-                        <i class="fas fa-sign-in-alt ml-2"></i>
-                        دخول
+    <!-- Header & Navigation -->
+    <header class="gradient-bg text-white shadow-lg">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 space-x-reverse mb-4 md:mb-0">
+                    <i class="fas fa-book-open text-2xl"></i>
+                    <h1 id="site-title" class="text-2xl font-bold editable" data-section="site" data-field="title">فلكرين</h1>
+                </div>
+                
+                <ul id="nav-list" class="flex flex-wrap gap-4 md:gap-6"></ul>
+                
+                <div class="mt-4 md:mt-0">
+                    <button id="login-btn" class="bg-white text-primary px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                        <i class="fas fa-sign-in-alt ml-2"></i>تسجيل الدخول
                     </button>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
 
-        <!-- المحتوى الرئيسي - الصفحة الرئيسية -->
-        <main id="homePage" class="container mx-auto px-4 py-8 flex-grow">
-            <!-- القسم الترحيبي - مستوحى من Purple Yard -->
-            <section class="yard-card p-8 mb-8 text-center">
-                <h2 id="heroTitle" class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--accent-purple); editable" data-section="hero" data-field="title">
-                    مرحباً في فلكرين
-                </h2>
-                <p id="heroDesc" class="text-lg max-w-2xl mx-auto" style="color: var(--text-secondary); editable" data-section="hero" data-field="description">
-                    ساحة شخصية عن ترجمة الألعاب والروايات المرئية اليابانية
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 content-wrapper">
+        <!-- Hero Section -->
+        <div id="home-page">
+            <section class="mb-12 text-center">
+                <h2 id="hero-title" class="text-4xl md:text-5xl font-bold mb-4 text-primary editable" data-section="hero" data-field="title">مرحباً بك في فلكرين</h2>
+                <p id="hero-description" class="text-xl text-gray-600 max-w-3xl mx-auto editable" data-section="hero" data-field="description">
+                    مدونة شخصية عن شغفي بترجمة الألعاب والروايات المرئية اليابانية. 
+                    أشارك هنا تجاربي، أدواتي، وكل ما أتعلمه في هذه الرحلة الممتعة.
                 </p>
             </section>
 
-            <!-- قسم من أنا -->
-            <section class="yard-card p-8 mb-8">
+            <!-- About Me Section with Easy Image Edit -->
+            <section id="about-section" class="mb-12 bg-white rounded-xl shadow-card p-8">
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <div class="image-container">
-                        <img id="profileImage" src="https://via.placeholder.com/120/1a1d24/a78bfa?text=ف" alt="صورة شخصية" 
-                             class="w-28 h-28 rounded-full object-cover border-2" style="border-color: var(--accent-purple);">
-                        <button class="image-edit-btn admin-only hidden" onclick="openImageLibrary('profile')">
-                            <i class="fas fa-camera text-sm"></i>
+                        <img id="profile-image" src="https://picsum.photos/128/128?random=4" alt="Profile" 
+                             class="w-32 h-32 rounded-full object-cover border-4 border-primary">
+                        <button class="image-edit-btn admin-only change-image-btn" onclick="openImageLibraryFor('profile')" title="تغيير الصورة">
+                            <i class="fas fa-camera"></i>
                         </button>
                     </div>
                     <div class="flex-1 text-center md:text-right">
-                        <h3 id="aboutTitle" class="text-xl font-bold mb-4 editable" data-section="about" data-field="title" style="color: var(--accent-cyan);">من أنا؟</h3>
-                        <p id="aboutText" class="leading-relaxed editable" data-section="about" data-field="content" style="color: var(--text-secondary);">
-                            مترجم ألعاب ومهتم بالروايات المرئية اليابانية
+                        <h3 id="about-title" class="text-2xl font-bold text-dark mb-4 editable" data-section="about" data-field="title">من أنا؟</h3>
+                        <p id="about-content" class="text-gray-600 leading-relaxed editable" data-section="about" data-field="content">
+                            مهتم بترجمة الألعاب إلى العربية وعاشق للروايات المرئية اليابانية. 
+                            أسعى لمشاركة معرفتي وخبراتي مع المجتمع العربي، ومساعدة الآخرين على 
+                            دخول هذا العالم الممتع. ستجد هنا مقالات عن الترجمة، دروس تقنية، 
+                            ومراجعات لألعاب فيجوال نوفل مميزة.
                         </p>
                     </div>
                 </div>
             </section>
 
-            <!-- قسم المقالات -->
-            <section class="mb-8">
-                <h3 class="section-title">أحدث المقالات</h3>
-                <div class="flex justify-end mb-4">
-                    <button id="addArticleBtn" class="yard-btn admin-only hidden" onclick="openArticleModal()">
-                        <i class="fas fa-plus ml-2"></i>
-                        إضافة مقال
+            <!-- Support Section -->
+            <section id="support-section" class="mb-12 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl shadow-card p-8 border border-yellow-200">
+                <div class="text-center">
+                    <i class="fas fa-heart text-4xl text-red-500 mb-4"></i>
+                    <h3 id="support-title" class="text-2xl font-bold text-dark mb-4 editable" data-section="support" data-field="title">ادعم المحتوى العربي</h3>
+                    <p id="support-description" class="text-gray-600 mb-6 max-w-2xl mx-auto editable" data-section="support" data-field="description">
+                        إذا استفدت من المحتوى الذي أقدمه وتريد دعم استمراريته، يمكنك دعمي مادياً عبر 
+                        منصة Ko-fi. دعوة بظهر الغيب تكفي، ولكن الدعم المالي يساعدني على تخصيص وقت أكبر للترجمة والكتابة.
+                    </p>
+                    <a id="support-link" href="https://buymeacoffee.com/ktaha1171c" target="_blank" 
+                       class="inline-flex items-center bg-yellow-400 text-dark px-6 py-3 rounded-lg font-bold hover:bg-yellow-500 transition duration-300 shadow-lg">
+                        <i class="fas fa-coffee ml-2"></i>
+                        اشتر لي قهوة ☕
+                    </a>
+                </div>
+            </section>
+
+            <!-- Articles Grid -->
+            <section class="mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-3xl font-bold text-secondary">المقالات</h3>
+                    <button id="add-article-btn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition duration-300 hidden admin-only">
+                        <i class="fas fa-plus ml-2"></i>إضافة مقال
                     </button>
                 </div>
-                <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                
+                <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
-            <!-- قسم التصنيفات -->
-            <section class="mb-8">
-                <h3 class="section-title">التصنيفات</h3>
-                <div class="flex justify-end mb-4">
-                    <button id="addCategoryBtn" class="yard-btn admin-only hidden" onclick="openCategoryModal()">
-                        <i class="fas fa-plus ml-2"></i>
-                        إضافة تصنيف
+            <!-- Categories Section -->
+            <section class="mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-3xl font-bold text-secondary">التصنيفات</h3>
+                    <button id="add-category-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300 hidden admin-only">
+                        <i class="fas fa-plus ml-2"></i>إضافة تصنيف
                     </button>
                 </div>
-                <div id="categoriesList" class="flex flex-wrap gap-2"></div>
+                <div id="categories-list" class="flex flex-wrap gap-4"></div>
             </section>
+        </div>
 
-            <!-- قسم الدعم -->
-            <section class="yard-card p-8 text-center">
-                <i class="fas fa-heart text-3xl mb-4" style="color: var(--accent-pink);"></i>
-                <h3 id="supportTitle" class="text-xl font-bold mb-4 editable" data-section="support" data-field="title">ادعم المحتوى</h3>
-                <p id="supportDesc" class="mb-6 max-w-2xl mx-auto editable" data-section="support" data-field="description" style="color: var(--text-secondary);">
-                    إذا استفدت من المحتوى، يمكنك دعمي
-                </p>
-                <a id="supportLink" href="https://ko-fi.com/flkrin" target="_blank" class="yard-btn yard-btn-primary inline-flex items-center">
-                    <i class="fas fa-coffee ml-2"></i>
-                    اشتر لي قهوة
-                </a>
-            </section>
-        </main>
-
-        <!-- صفحة قراءة المقال -->
-        <main id="articlePage" class="hidden flex-grow">
-            <div class="article-page">
-                <button onclick="showHomePage()" class="back-btn mb-8">
-                    <i class="fas fa-arrow-right ml-2"></i>
-                    العودة للرئيسية
-                </button>
+        <!-- About Page with Easy Image Edit -->
+        <div id="about-page" class="hidden">
+            <div class="static-page">
+                <h2 class="text-primary">عن فلكرين</h2>
                 
-                <article class="yard-card p-8">
-                    <header class="article-header">
-                        <h1 id="articlePageTitle" class="article-title"></h1>
-                        
-                        <div class="article-meta">
-                            <span class="article-meta-item">
-                                <i class="fas fa-calendar"></i>
-                                <span id="articlePageDate"></span>
-                            </span>
-                            <span class="article-meta-item">
-                                <i class="fas fa-tag"></i>
-                                <span id="articlePageCategory"></span>
-                            </span>
-                            <span class="article-meta-item">
-                                <i class="fas fa-eye"></i>
-                                <span id="articlePageViews"></span>
-                            </span>
-                        </div>
-                        
-                        <img id="articlePageImage" src="" alt="" class="article-featured-image">
-                    </header>
-                    
-                    <div id="articlePageContent" class="article-content"></div>
-                    
-                    <footer class="article-footer">
-                        <button onclick="showHomePage()" class="back-btn">
-                            <i class="fas fa-arrow-right ml-2"></i>
-                            العودة
-                        </button>
-                        
-                        <div class="share-buttons">
-                            <a href="#" onclick="shareOnTwitter()" class="share-btn" title="مشاركة على تويتر">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" onclick="shareOnFacebook()" class="share-btn" title="مشاركة على فيسبوك">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" onclick="copyArticleLink()" class="share-btn" title="نسخ الرابط">
-                                <i class="fas fa-link"></i>
-                            </a>
-                        </div>
-                    </footer>
-                </article>
-            </div>
-        </main>
-
-        <!-- صفحة عن فلكرين -->
-        <main id="aboutPage" class="hidden container mx-auto px-4 py-8 flex-grow">
-            <div class="yard-card p-8">
-                <h2 class="text-2xl font-bold mb-6 editable" data-section="aboutPage" data-field="title" style="color: var(--accent-purple);">عن فلكرين</h2>
-                
-                <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="flex flex-col md:flex-row gap-8 items-start mb-8">
                     <div class="md:w-1/3 image-container">
-                        <img id="aboutPageImage" src="https://via.placeholder.com/300/1a1d24/a78bfa?text=فلكرين" alt="عن فلكرين" class="rounded-xl w-full">
-                        <button class="image-edit-btn admin-only hidden" onclick="openImageLibrary('aboutPage')">
+                        <img id="about-page-image" src="https://picsum.photos/400/400?random=100" alt="فلكرين" class="rounded-2xl shadow-xl w-full">
+                        <button class="image-edit-btn admin-only" onclick="openImageLibraryFor('about-page')" title="تغيير الصورة">
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
                     <div class="md:w-2/3">
-                        <p id="aboutPageText1" class="mb-4 editable" data-section="aboutPage" data-field="text1" style="color: var(--text-secondary);">
-                            مهتم بترجمة الألعاب ومشاركة شغفي بالروايات المرئية اليابانية مع المجتمع العربي.
-                        </p>
-                        <p id="aboutPageText2" class="editable" data-section="aboutPage" data-field="text2" style="color: var(--text-secondary);">
-                            في هذه الساحة المتواضعة، أشارك تجاربي وأفكاري حول عالم الفيجوال نوفل.
-                        </p>
+                        <h3 class="text-primary">من أنا؟</h3>
+                        <p id="about-page-text" class="editable" data-section="aboutPage" data-field="text">أنا فلان الفلاني، مترجم ألعاب ومطور محتوى متخصص في عالم الفيجوال نوفل. بدأت رحلتي مع هذا النوع من الألعاب منذ أكثر من 10 سنوات، عندما وقعت في حب القصص التفاعلية اليابانية.</p>
+                        <p class="editable" data-section="aboutPage" data-field="text2">ما بدأ كهواية تحول مع الوقت إلى شغف حقيقي بترجمة هذه الأعمال الرائعة إلى اللغة العربية، لمشاركة المتعة مع المجتمع العربي الذي يستحق الاستمتاع بهذه التجارب الفريدة.</p>
                     </div>
                 </div>
-            </div>
-        </main>
-
-        <!-- صفحة الاتصال -->
-        <main id="contactPage" class="hidden container mx-auto px-4 py-8 flex-grow">
-            <div class="yard-card p-8">
-                <h2 class="text-2xl font-bold mb-6 editable" data-section="contact" data-field="title" style="color: var(--accent-purple);">اتصل بي</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <h3 class="editable" data-section="aboutPage" data-field="visionTitle">رؤيتي</h3>
+                <p class="editable" data-section="aboutPage" data-field="vision">أسعى من خلال "فلكرين" إلى بناء جسر بين الثقافة العربية واليابانية في عالم ألعاب الفيجوال نوفل. هدفي هو توفير محتوى عربي عالي الجودة يشمل:</p>
+                <ul>
+                    <li class="editable" data-section="aboutPage" data-field="item1"><strong>ترجمات عربية:</strong> لأشهر وأجمل الروايات المرئية اليابانية</li>
+                    <li class="editable" data-section="aboutPage" data-field="item2"><strong>دروس تعليمية:</strong> للمبتدئين الراغبين في تعلم ترجمة الألعاب</li>
+                    <li class="editable" data-section="aboutPage" data-field="item3"><strong>مراجعات وتحليلات:</strong> لأعمال الفيجوال نوفل من منظور عربي</li>
+                    <li class="editable" data-section="aboutPage" data-field="item4"><strong>أدوات وموارد:</strong> للمترجمين والمطورين العرب</li>
+                </ul>
+                
+                <h3 class="editable" data-section="aboutPage" data-field="nameTitle">لماذا "فلكرين"؟</h3>
+                <p class="editable" data-section="aboutPage" data-field="nameText">الاسم مستوحى من عالم الألعاب والروايات الخيالية التي أحبها. "فلكرين" هي كلمة تعكس روح المغامرة والاستكشاف التي تميز هذا النوع من الألعاب.</p>
+                
+                <h3 class="editable" data-section="aboutPage" data-field="contentTitle">ماذا ستجد هنا؟</h3>
+                <ul>
+                    <li class="editable" data-section="aboutPage" data-field="content1">📝 مقالات عن الترجمة وتقنياتها</li>
+                    <li class="editable" data-section="aboutPage" data-field="content2">🎮 مراجعات لألعاب فيجوال نوفل</li>
+                    <li class="editable" data-section="aboutPage" data-field="content3">📚 دروس تعليمية للمبتدئين</li>
+                    <li class="editable" data-section="aboutPage" data-field="content4">🔧 أدوات وموارد للمترجمين</li>
+                    <li class="editable" data-section="aboutPage" data-field="content5">🗾 محتوى عن الثقافة اليابانية</li>
+                    <li class="editable" data-section="aboutPage" data-field="content6">💬 تجارب شخصية في عالم الترجمة</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Privacy Policy Page -->
+        <div id="privacy-page" class="hidden">
+            <div class="static-page">
+                <h2 class="text-primary editable" data-section="privacy" data-field="title">سياسة الخصوصية</h2>
+                <p class="editable" data-section="privacy" data-field="lastUpdate">آخر تحديث: يناير 2024</p>
+                
+                <h3 class="editable" data-section="privacy" data-field="introTitle">مقدمة</h3>
+                <p class="editable" data-section="privacy" data-field="intro">نحن في "فلكرين" نلتزم بحماية خصوصية زوارنا. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام موقعنا.</p>
+                
+                <!-- باقي النصوص قابلة للتعديل بنفس الطريقة -->
+            </div>
+        </div>
+
+        <!-- Terms Page -->
+        <div id="terms-page" class="hidden">
+            <div class="static-page">
+                <h2 class="text-primary editable" data-section="terms" data-field="title">شروط الاستخدام</h2>
+                <p class="editable" data-section="terms" data-field="lastUpdate">آخر تحديث: يناير 2024</p>
+                
+                <h3 class="editable" data-section="terms" data-field="acceptTitle">قبول الشروط</h3>
+                <p class="editable" data-section="terms" data-field="accept">باستخدامك لموقع "فلكرين"، فإنك توافق على الالتزام بشروط الاستخدام هذه. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام الموقع.</p>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact-page" class="hidden">
+            <div class="static-page">
+                <h2 class="text-primary editable" data-section="contact" data-field="title">اتصل بي</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div>
-                        <p class="mb-6 editable" data-section="contact" data-field="description" style="color: var(--text-secondary);">
-                            أنا سعيد دائمًا بالتواصل مع زوار الساحة.
-                        </p>
+                        <h3 class="editable" data-section="contact" data-field="infoTitle">معلومات التواصل</h3>
+                        <p class="editable" data-section="contact" data-field="info">أنا سعيد دائمًا بالتواصل مع زوار الموقع. سواء كان لديك سؤال، اقتراح، أو مجرد تحية، لا تتردد في مراسلتي!</p>
                         
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4 p-4 rounded-xl" style="background: rgba(0,0,0,0.2);">
-                                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: var(--accent-purple);">
-                                    <i class="fas fa-envelope text-white"></i>
+                        <div class="space-y-4 mt-6">
+                            <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-envelope text-primary text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-sm">البريد الإلكتروني</h4>
-                                    <a href="mailto:ktaha1171@gmail.com" style="color: var(--accent-cyan);" class="text-sm">ktaha1171@gmail.com</a>
+                                    <h4 class="font-bold">البريد الإلكتروني</h4>
+                                    <a href="mailto:ktaha1171@gmail.com" class="text-primary hover:underline">ktaha1171@gmail.com</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div>
-                        <h3 class="font-bold mb-4 editable" data-section="contact" data-field="formTitle" style="color: var(--accent-cyan);">أرسل رسالة</h3>
-                        <form id="contactForm" class="space-y-4" onsubmit="handleContactSubmit(event)">
-                            <input type="text" id="contactName" placeholder="الاسم" class="yard-input" required>
-                            <input type="email" id="contactEmail" placeholder="البريد الإلكتروني" class="yard-input" required>
-                            <input type="text" id="contactSubject" placeholder="الموضوع" class="yard-input" required>
-                            <textarea id="contactMessage" placeholder="الرسالة" rows="4" class="yard-input" required></textarea>
-                            <button type="submit" class="yard-btn yard-btn-primary w-full">
-                                <i class="fas fa-paper-plane ml-2"></i>
-                                إرسال
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <!-- صفحة الخصوصية -->
-        <main id="privacyPage" class="hidden container mx-auto px-4 py-8 flex-grow">
-            <div class="yard-card p-8">
-                <h2 class="text-2xl font-bold mb-6 editable" data-section="privacy" data-field="title" style="color: var(--accent-purple);">سياسة الخصوصية</h2>
-                <div class="prose max-w-none" style="color: var(--text-secondary);">
-                    <p class="editable" data-section="privacy" data-field="content">
-                        في فلكرين، نؤمن بخصوصية زوارنا ونحترمها.
-                    </p>
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4">فلكرين</h4>
+                    <p class="text-gray-300">مدونة شخصية عن ترجمة الألعاب والروايات المرئية اليابانية.</p>
                 </div>
-            </div>
-        </main>
-
-        <!-- صفحة الشروط -->
-        <main id="termsPage" class="hidden container mx-auto px-4 py-8 flex-grow">
-            <div class="yard-card p-8">
-                <h2 class="text-2xl font-bold mb-6 editable" data-section="terms" data-field="title" style="color: var(--accent-purple);">شروط الاستخدام</h2>
-                <div class="prose max-w-none" style="color: var(--text-secondary);">
-                    <p class="editable" data-section="terms" data-field="content">
-                        باستخدامك لهذه الساحة، فإنك توافق على احترام المحتوى والمشاركات.
-                    </p>
+                
+                <div>
+                    <h4 class="text-xl font-bold mb-4">روابط سريعة</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showPage('home'); return false;" class="text-gray-300 hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#" onclick="showPage('about'); return false;" class="text-gray-300 hover:text-white transition">عن فلكرين</a></li>
+                        <li><a href="#" onclick="showPage('contact'); return false;" class="text-gray-300 hover:text-white transition">اتصل بي</a></li>
+                        <li><a href="#" onclick="showPage('privacy'); return false;" class="text-gray-300 hover:text-white transition">سياسة الخصوصية</a></li>
+                        <li><a href="#" onclick="showPage('terms'); return false;" class="text-gray-300 hover:text-white transition">شروط الاستخدام</a></li>
+                    </ul>
                 </div>
-            </div>
-        </main>
-
-        <!-- الفوتر - بسيط مثل Purple Yard -->
-        <footer class="yard-footer py-6">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div>
-                        <h4 class="font-bold mb-3 text-sm" style="color: var(--accent-purple);">فلكرين</h4>
-                        <p class="text-xs" style="color: var(--text-secondary);">ساحة عن ترجمة الألعاب والروايات المرئية</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-bold mb-3 text-sm" style="color: var(--accent-purple);">روابط</h4>
-                        <ul class="space-y-1 text-xs">
-                            <li><a href="#" onclick="showHomePage(); return false;" class="hover:text-accent-purple transition" style="color: var(--text-secondary);">الرئيسية</a></li>
-                            <li><a href="#" onclick="showPage('about'); return false;" class="hover:text-accent-purple transition" style="color: var(--text-secondary);">عن فلكرين</a></li>
-                            <li><a href="#" onclick="showPage('contact'); return false;" class="hover:text-accent-purple transition" style="color: var(--text-secondary);">اتصل بي</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-bold mb-3 text-sm" style="color: var(--accent-purple);">تواصل</h4>
-                        <div class="space-y-1 text-xs">
-                            <a href="https://youtube.com/@Flkrin" target="_blank" class="flex items-center hover:text-red-500 transition" style="color: var(--text-secondary);">
-                                <i class="fab fa-youtube ml-2"></i>
-                                يوتيوب
-                            </a>
-                            <a href="https://discord.gg/V3AV9nb4Sk" target="_blank" class="flex items-center hover:text-indigo-400 transition" style="color: var(--text-secondary);">
-                                <i class="fab fa-discord ml-2"></i>
-                                ديسكورد
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-bold mb-3 text-sm" style="color: var(--accent-purple);">دعم</h4>
-                        <a href="https://ko-fi.com/flkrin" target="_blank" class="yard-btn yard-btn-primary text-xs inline-flex items-center">
-                            <i class="fas fa-coffee ml-2"></i>
-                            قهوة
+                
+                <div>
+                    <h4 class="text-xl font-bold mb-4">تواصل معي</h4>
+                    <div class="flex flex-col space-y-3">
+                        <a id="social-youtube" href="https://www.youtube.com/@Flkrin" target="_blank" class="flex items-center text-gray-300 hover:text-red-500 transition duration-300">
+                            <i class="fab fa-youtube text-xl ml-3"></i>
+                            يوتيوب
+                        </a>
+                        <a id="social-discord" href="https://discord.com/invite/V3AV9nb4Sk" target="_blank" class="flex items-center text-gray-300 hover:text-indigo-400 transition duration-300">
+                            <i class="fab fa-discord text-xl ml-3"></i>
+                            ديسكورد
+                        </a>
+                        <a id="social-github" href="https://github.com/flkrin1171" target="_blank" class="flex items-center text-gray-300 hover:text-white transition duration-300">
+                            <i class="fab fa-github text-xl ml-3"></i>
+                            جيت هب
                         </a>
                     </div>
                 </div>
                 
-                <div class="border-t border-gray-700 mt-6 pt-4 text-center">
-                    <p id="copyrightText" class="text-xs editable" data-section="footer" data-field="copyright" style="color: var(--text-secondary);">© 2024 فلكرين. جميع الحقوق محفوظة</p>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">الدعم المالي</h4>
+                    <a id="footer-support" href="https://buymeacoffee.com/ktaha1171c" target="_blank" 
+                       class="inline-flex items-center bg-yellow-500 text-dark px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-300">
+                        <i class="fas fa-coffee ml-2"></i>
+                        اشتر لي قهوة
+                    </a>
                 </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- مودال تسجيل الدخول -->
-    <div id="loginModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 opacity-0 invisible transition-all" style="backdrop-filter: blur(5px);">
-        <div class="yard-modal p-6 max-w-md w-full">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold" style="color: var(--accent-purple);">دخول</h3>
-                <button onclick="closeModal('loginModal')" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
             
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">الاسم</label>
-                    <input type="text" id="username" class="yard-input" required>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">كلمة السر</label>
-                    <input type="password" id="password" class="yard-input" required>
-                </div>
-                
-                <div id="loginError" class="text-red-500 text-sm mb-4 hidden">
-                    خطأ في البيانات
-                </div>
-                
-                <button type="submit" class="yard-btn yard-btn-primary w-full">
-                    <i class="fas fa-sign-in-alt ml-2"></i>
-                    دخول
-                </button>
-            </form>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p id="copyright-text" class="editable" data-section="footer" data-field="copyright">© 2024 فلكرين. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+            <!-- محتوى نافذة تسجيل الدخول -->
         </div>
     </div>
 
-    <!-- مودال المقالات -->
-    <div id="articleModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 opacity-0 invisible transition-all" style="backdrop-filter: blur(5px);">
-        <div class="yard-modal p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between mb-6">
-                <h3 id="articleModalTitle" class="text-xl font-bold" style="color: var(--accent-purple);">مقال جديد</h3>
-                <button onclick="closeModal('articleModal')" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <form id="articleForm" onsubmit="saveArticle(event)">
-                <input type="hidden" id="articleId">
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block mb-2 text-sm">العنوان</label>
-                        <input type="text" id="articleTitle" class="yard-input" required>
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2 text-sm">التصنيف</label>
-                        <select id="articleCategory" class="yard-input" required>
-                            <option value="">اختر</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">الوصف</label>
-                    <textarea id="articleExcerpt" class="yard-input" rows="2" required></textarea>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">الصورة</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="articleImage" class="yard-input flex-1" placeholder="رابط">
-                        <button type="button" onclick="openImageLibrary('articleImage')" class="yard-btn">
-                            <i class="fas fa-image"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">الحالة</label>
-                    <select id="articleStatus" class="yard-input">
-                        <option value="published">منشور</option>
-                        <option value="draft">مسودة</option>
-                        <option value="hidden">مخفي</option>
-                    </select>
-                </div>
-                
-                <div class="mb-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <label class="text-sm">المحتوى</label>
-                        <button type="button" onclick="openImageLibrary('articleContent')" class="yard-btn text-xs py-1">
-                            <i class="fas fa-image ml-1"></i>
-                            إدراج صورة
-                        </button>
-                    </div>
-                    <textarea id="articleContent" class="yard-input" rows="8" required></textarea>
-                </div>
-                
-                <div class="flex gap-2 justify-end">
-                    <button type="button" onclick="closeModal('articleModal')" class="yard-btn">
-                        إلغاء
-                    </button>
-                    <button type="submit" class="yard-btn yard-btn-primary">
-                        <i class="fas fa-save ml-2"></i>
-                        حفظ
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- مودال التصنيفات -->
-    <div id="categoryModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 opacity-0 invisible transition-all" style="backdrop-filter: blur(5px);">
-        <div class="yard-modal p-6 max-w-md w-full">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold" style="color: var(--accent-purple);">التصنيفات</h3>
-                <button onclick="closeModal('categoryModal')" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div id="categoriesListAdmin" class="mb-6 max-h-60 overflow-y-auto space-y-2"></div>
-            
-            <form id="categoryForm" onsubmit="addCategory(event)" class="border-t border-gray-700 pt-6">
-                <h4 class="font-bold mb-4 text-sm">إضافة تصنيف</h4>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">الاسم</label>
-                    <input type="text" id="newCategoryName" class="yard-input" required>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">المعرف</label>
-                    <input type="text" id="newCategoryId" class="yard-input" required>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm">اللون</label>
-                    <select id="newCategoryColor" class="yard-input">
-                        <option value="bg-blue-100 text-blue-800">أزرق</option>
-                        <option value="bg-green-100 text-green-800">أخضر</option>
-                        <option value="bg-purple-100 text-purple-800">بنفسجي</option>
-                        <option value="bg-pink-100 text-pink-800">وردي</option>
-                        <option value="bg-cyan-100 text-cyan-800">سماوي</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="yard-btn yard-btn-primary w-full">
-                    <i class="fas fa-plus ml-2"></i>
-                    إضافة
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- مودال مكتبة الصور -->
-    <div id="imageLibraryModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 opacity-0 invisible transition-all" style="backdrop-filter: blur(5px);">
-        <div class="yard-modal p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold" style="color: var(--accent-purple);">مكتبة الصور</h3>
-                <button onclick="closeModal('imageLibraryModal')" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <!-- رفع الصور -->
-            <div class="mb-6 p-4 border-2 border-dashed rounded-xl text-center" style="border-color: var(--border-color);">
-                <input type="file" id="imageUpload" accept="image/*" class="hidden" onchange="previewImage(event)">
-                <button onclick="document.getElementById('imageUpload').click()" class="yard-btn">
-                    <i class="fas fa-upload ml-2"></i>
-                    اختر صورة
-                </button>
-                <div id="uploadPreview" class="hidden mt-4">
-                    <img id="previewImg" src="" alt="Preview" class="max-h-40 mx-auto rounded-lg mb-2">
-                    <button onclick="uploadImage()" class="yard-btn yard-btn-primary">
-                        <i class="fas fa-check ml-2"></i>
-                        رفع
-                    </button>
-                </div>
-            </div>
-            
-            <!-- معرض الصور -->
-            <div id="imageGallery" class="image-gallery"></div>
-        </div>
-    </div>
-
-    <!-- مودال إعدادات الخلفية -->
-    <div id="bgSettingsModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 opacity-0 invisible transition-all" style="backdrop-filter: blur(5px);">
-        <div class="yard-modal p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold" style="color: var(--accent-purple);">الخلفيات</h3>
-                <button onclick="closeModal('bgSettingsModal')" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="mb-6">
-                <h4 class="font-bold mb-2 text-sm">الخلفية الحالية:</h4>
-                <div id="currentBgPreview" class="w-full h-32 rounded-lg bg-cover bg-center mb-2" style="background-image: url('https://picsum.photos/800/200?random=100')"></div>
-            </div>
-            
-            <div class="mb-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h4 class="font-bold text-sm">خلفيات فيجوال نوفل</h4>
-                    <div class="flex items-center gap-4">
-                        <label class="flex items-center gap-2 text-sm">
-                            <input type="checkbox" id="autoRotateBg" checked onchange="toggleAutoRotate()">
-                            <span>تلقائي (10ث)</span>
-                        </label>
-                        <button onclick="nextBackground()" class="yard-btn text-sm">
-                            <i class="fas fa-forward ml-1"></i>
-                            التالي
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="bgGalleryList" class="bg-gallery"></div>
-            </div>
-        </div>
+    <!-- Article Editor Modal -->
+    <div id="article-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <!-- محتوى نافذة تحرير المقالات -->
     </div>
 
     <script>
-        // ==================== البيانات الأساسية ====================
-        const ADMIN_USERNAME = 'flkrin1171';
-        const ADMIN_PASSWORD = 'Kareemiop123a@';
+        // ==================== DATA LAYER ====================
+        const adminCredentials = {
+            username: "flkrin1171",
+            password: "Kareemiop123a@"
+        };
 
-        let siteData = JSON.parse(localStorage.getItem('falkrein_data')) || {
-            site: { title: 'فلكرين' },
-            hero: {
-                title: 'مرحباً في فلكرين',
-                description: 'ساحة شخصية عن ترجمة الألعاب والروايات المرئية اليابانية'
+        // تحميل البيانات من localStorage
+        let siteData = JSON.parse(localStorage.getItem('falkreen_site_data')) || {
+            site: { title: "فلكرين" },
+            profile: { image: "https://picsum.photos/128/128?random=4" },
+            aboutPage: { 
+                image: "https://picsum.photos/400/400?random=100",
+                text: "أنا فلان الفلاني، مترجم ألعاب ومطور محتوى متخصص في عالم الفيجوال نوفل. بدأت رحلتي مع هذا النوع من الألعاب منذ أكثر من 10 سنوات، عندما وقعت في حب القصص التفاعلية اليابانية.",
+                text2: "ما بدأ كهواية تحول مع الوقت إلى شغف حقيقي بترجمة هذه الأعمال الرائعة إلى اللغة العربية، لمشاركة المتعة مع المجتمع العربي الذي يستحق الاستمتاع بهذه التجارب الفريدة.",
+                visionTitle: "رؤيتي",
+                vision: "أسعى من خلال \"فلكرين\" إلى بناء جسر بين الثقافة العربية واليابانية في عالم ألعاب الفيجوال نوفل. هدفي هو توفير محتوى عربي عالي الجودة يشمل:",
+                nameTitle: "لماذا \"فلكرين\"؟",
+                nameText: "الاسم مستوحى من عالم الألعاب والروايات الخيالية التي أحبها. \"فلكرين\" هي كلمة تعكس روح المغامرة والاستكشاف التي تميز هذا النوع من الألعاب.",
+                contentTitle: "ماذا ستجد هنا؟"
             },
-            about: {
-                title: 'من أنا؟',
-                content: 'مترجم ألعاب ومهتم بالروايات المرئية اليابانية'
-            },
-            aboutPage: {
-                title: 'عن فلكرين',
-                text1: 'مهتم بترجمة الألعاب ومشاركة شغفي بالروايات المرئية اليابانية مع المجتمع العربي.',
-                text2: 'في هذه الساحة المتواضعة، أشارك تجاربي وأفكاري حول عالم الفيجوال نوفل.'
-            },
-            support: {
-                title: 'ادعم المحتوى',
-                description: 'إذا استفدت من المحتوى، يمكنك دعمي'
-            },
-            contact: {
-                title: 'اتصل بي',
-                description: 'أنا سعيد دائمًا بالتواصل مع زوار الساحة.',
-                formTitle: 'أرسل رسالة'
-            },
-            privacy: {
-                title: 'سياسة الخصوصية',
-                content: 'في فلكرين، نؤمن بخصوصية زوارنا ونحترمها.'
-            },
-            terms: {
-                title: 'شروط الاستخدام',
-                content: 'باستخدامك لهذه الساحة، فإنك توافق على احترام المحتوى والمشاركات.'
-            },
-            footer: {
-                copyright: '© 2024 فلكرين. جميع الحقوق محفوظة'
-            },
-            profile: {
-                image: 'https://via.placeholder.com/120/1a1d24/a78bfa?text=ف'
-            },
-            aboutImage: {
-                image: 'https://via.placeholder.com/300/1a1d24/a78bfa?text=فلكرين'
-            },
-            backgrounds: {
-                currentIndex: 0,
-                autoRotate: true,
-                images: [
-                    'https://picsum.photos/1920/1080?random=100',
-                    'https://picsum.photos/1920/1080?random=101',
-                    'https://picsum.photos/1920/1080?random=102',
-                    'https://picsum.photos/1920/1080?random=103',
-                    'https://picsum.photos/1920/1080?random=104',
-                    'https://picsum.photos/1920/1080?random=105',
-                    'https://picsum.photos/1920/1080?random=106',
-                    'https://picsum.photos/1920/1080?random=107',
-                    'https://picsum.photos/1920/1080?random=108'
-                ]
+            background: {
+                image: "",
+                opacity: 0.95
             }
         };
 
-        let categories = JSON.parse(localStorage.getItem('falkrein_categories')) || [
-            { id: 'translation', name: 'ترجمة', color: 'bg-purple-100 text-purple-800' },
-            { id: 'visual-novels', name: 'فيجوال نوفل', color: 'bg-cyan-100 text-cyan-800' },
-            { id: 'reviews', name: 'مراجعات', color: 'bg-pink-100 text-pink-800' },
-            { id: 'tutorials', name: 'دروس', color: 'bg-blue-100 text-blue-800' }
+        // مكتبة الصور
+        let imageLibrary = JSON.parse(localStorage.getItem('falkreen_images')) || [
+            { id: 1, url: "https://picsum.photos/128/128?random=4", name: "صورة شخصية", date: "2024-01-20" },
+            { id: 2, url: "https://picsum.photos/400/400?random=100", name: "عن فلكرين", date: "2024-01-20" },
+            { id: 3, url: "https://picsum.photos/1920/1080?random=100", name: "خلفية طبيعة", date: "2024-01-20" },
+            { id: 4, url: "https://picsum.photos/1920/1080?random=101", name: "خلفية مدينة", date: "2024-01-20" }
         ];
 
-        let articles = JSON.parse(localStorage.getItem('falkrein_articles')) || [
-            {
-                id: 1,
-                title: 'كيف بدأت رحلتي مع الترجمة',
-                excerpt: 'قصة شغفي بترجمة الألعاب اليابانية',
-                content: '## البداية\n\nكل شيء بدأ عندما وقعت في حب أول رواية مرئية...\n\n![صورة](https://via.placeholder.com/800/1a1d24/a78bfa?text=صورة)\n\nمرت السنوات وتعلمت الكثير...',
-                category: 'translation',
-                image: 'https://via.placeholder.com/600x400/1a1d24/a78bfa?text=مقال',
-                date: '2024-01-20',
-                views: 87,
-                status: 'published'
-            },
-            {
-                id: 2,
-                title: 'أفضل الروايات للمبتدئين',
-                excerpt: 'دليل المبتدئين في عالم الفيجوال نوفل',
-                content: '## المقدمة\n\nإذا كنت جديداً في هذا العالم، إليك قائمة بأفضل الأعمال...',
-                category: 'visual-novels',
-                image: 'https://via.placeholder.com/600x400/1a1d24/a78bfa?text=أفضل',
-                date: '2024-01-18',
-                views: 156,
-                status: 'published'
-            }
-        ];
-
-        let imageLibrary = JSON.parse(localStorage.getItem('falkrein_images')) || [
-            { id: 1, url: 'https://via.placeholder.com/150/1a1d24/a78bfa?text=1', name: 'صورة 1' },
-            { id: 2, url: 'https://via.placeholder.com/150/1a1d24/a78bfa?text=2', name: 'صورة 2' }
-        ];
-
-        // متغيرات عامة
+        // متغير لتتبع الصورة التي يتم تعديلها
         let currentImageTarget = null;
-        let editMode = false;
-        let bgRotateInterval = null;
 
-        // ==================== جسيمات عائمة ====================
-        function initFloatingParticles() {
-            const symbols = ['✦', '✧', '⬩', '⬨', '⬪', '⬫', '◈', '◇', '○', '●', '◯', '△', '▲', '▽', '▼', '□', '■', '▢', '▣'];
-            const container = document.getElementById('floatingParticles');
-            for (let i = 0; i < 25; i++) {
-                const span = document.createElement('span');
-                span.className = 'particle';
-                span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                span.style.left = Math.random() * 100 + '%';
-                span.style.animationDelay = Math.random() * 20 + 's';
-                span.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                span.style.opacity = 0.1 + Math.random() * 0.2;
-                container.appendChild(span);
+        // ==================== BACKGROUND FUNCTIONS ====================
+        function updateBackground(imageUrl) {
+            if (imageUrl) {
+                document.getElementById('background-layer').style.backgroundImage = `url('${imageUrl}')`;
+                siteData.background.image = imageUrl;
+                localStorage.setItem('falkreen_site_data', JSON.stringify(siteData));
             }
         }
 
-        // ==================== نظام الخلفيات ====================
-        function initBackgrounds() {
-            updateBackground(siteData.backgrounds.currentIndex);
-            if (siteData.backgrounds.autoRotate) startBgRotation();
+        function updateBackgroundOpacity(opacity) {
+            document.getElementById('background-overlay').style.backgroundColor = `rgba(255, 255, 255, ${1 - opacity})`;
+            siteData.background.opacity = opacity;
+            localStorage.setItem('falkreen_site_data', JSON.stringify(siteData));
         }
 
-        function updateBackground(index) {
-            const bg = siteData.backgrounds.images[index];
-            document.querySelector('.animated-bg').style.background = `linear-gradient(125deg, ${bg} 0%, #1a1d24 50%, #2d1f3a 100%)`;
-            siteData.backgrounds.currentIndex = index;
-            
-            const preview = document.getElementById('currentBgPreview');
-            if (preview) preview.style.backgroundImage = `url('${bg}')`;
-            
-            document.querySelectorAll('.bg-item').forEach((item, i) => {
-                if (i === index) item.classList.add('active');
-                else item.classList.remove('active');
-            });
-            
-            localStorage.setItem('falkrein_data', JSON.stringify(siteData));
-        }
-
-        function nextBackground() {
-            const next = (siteData.backgrounds.currentIndex + 1) % siteData.backgrounds.images.length;
-            updateBackground(next);
-        }
-
-        function startBgRotation() {
-            if (bgRotateInterval) clearInterval(bgRotateInterval);
-            bgRotateInterval = setInterval(nextBackground, 10000);
-        }
-
-        function stopBgRotation() {
-            if (bgRotateInterval) {
-                clearInterval(bgRotateInterval);
-                bgRotateInterval = null;
-            }
-        }
-
-        window.toggleAutoRotate = function() {
-            siteData.backgrounds.autoRotate = document.getElementById('autoRotateBg').checked;
-            if (siteData.backgrounds.autoRotate) startBgRotation();
-            else stopBgRotation();
-            localStorage.setItem('falkrein_data', JSON.stringify(siteData));
-        };
-
-        window.openBgSettings = function() {
-            renderBgGallery();
-            openModal('bgSettingsModal');
-        };
-
-        function renderBgGallery() {
-            const gallery = document.getElementById('bgGalleryList');
-            if (!gallery) return;
-            gallery.innerHTML = siteData.backgrounds.images.map((bg, i) => `
-                <div class="bg-item ${i === siteData.backgrounds.currentIndex ? 'active' : ''}" onclick="updateBackground(${i})">
-                    <img src="${bg}" alt="bg ${i+1}">
-                </div>
-            `).join('');
-        }
-
-        // ==================== تهيئة الموقع ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            initFloatingParticles();
-            loadSiteData();
-            renderArticles();
-            renderCategories();
-            renderCategoriesAdmin();
-            renderImageGallery();
-            checkLoginStatus();
-            initBackgrounds();
-        });
-
-        function loadSiteData() {
-            document.getElementById('siteTitle').textContent = siteData.site.title;
-            document.getElementById('heroTitle').textContent = siteData.hero.title;
-            document.getElementById('heroDesc').textContent = siteData.hero.description;
-            document.getElementById('aboutTitle').textContent = siteData.about.title;
-            document.getElementById('aboutText').textContent = siteData.about.content;
-            document.getElementById('aboutPageText1').textContent = siteData.aboutPage.text1;
-            document.getElementById('aboutPageText2').textContent = siteData.aboutPage.text2;
-            document.getElementById('supportTitle').textContent = siteData.support.title;
-            document.getElementById('supportDesc').textContent = siteData.support.description;
-            document.getElementById('copyrightText').textContent = siteData.footer.copyright;
-            document.getElementById('profileImage').src = siteData.profile.image;
-            document.getElementById('aboutPageImage').src = siteData.aboutImage.image;
-        }
-
-        // ==================== التنقل بين الصفحات ====================
-        window.showHomePage = function() {
-            document.getElementById('homePage').classList.remove('hidden');
-            document.getElementById('articlePage').classList.add('hidden');
-            document.getElementById('aboutPage').classList.add('hidden');
-            document.getElementById('contactPage').classList.add('hidden');
-            document.getElementById('privacyPage').classList.add('hidden');
-            document.getElementById('termsPage').classList.add('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.showPage = function(page) {
-            document.getElementById('homePage').classList.add('hidden');
-            document.getElementById('articlePage').classList.add('hidden');
-            document.getElementById('aboutPage').classList.add('hidden');
-            document.getElementById('contactPage').classList.add('hidden');
-            document.getElementById('privacyPage').classList.add('hidden');
-            document.getElementById('termsPage').classList.add('hidden');
-            document.getElementById(page + 'Page').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        // ==================== عرض المقال ====================
-        window.viewArticle = function(id) {
-            const article = articles.find(a => a.id == id);
-            if (!article) return;
-            
-            article.views++;
-            localStorage.setItem('falkrein_articles', JSON.stringify(articles));
-            
-            document.getElementById('articlePageTitle').textContent = article.title;
-            document.getElementById('articlePageDate').textContent = article.date;
-            document.getElementById('articlePageViews').textContent = article.views + ' مشاهدة';
-            
-            const category = categories.find(c => c.id === article.category);
-            document.getElementById('articlePageCategory').textContent = category ? category.name : article.category;
-            
-            document.getElementById('articlePageImage').src = article.image;
-            document.getElementById('articlePageImage').alt = article.title;
-            document.getElementById('articlePageContent').innerHTML = marked.parse(article.content);
-            
-            showPage('article');
-        };
-
-        // ==================== مشاركة المقال ====================
-        window.shareOnTwitter = function() {
-            const title = document.getElementById('articlePageTitle').textContent;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
-        };
-
-        window.shareOnFacebook = function() {
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
-        };
-
-        window.copyArticleLink = function() {
-            navigator.clipboard.writeText(window.location.href);
-            alert('تم نسخ الرابط');
-        };
-
-        // ==================== نظام تسجيل الدخول ====================
-        window.openLoginModal = function() { openModal('loginModal'); };
-        
-        window.closeModal = function(id) { 
-            document.getElementById(id).classList.remove('active');
-            document.getElementById(id).style.opacity = '0';
-            document.getElementById(id).style.visibility = 'hidden';
-        };
-        
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.getElementById(id).style.opacity = '1';
-            document.getElementById(id).style.visibility = 'visible';
-        }
-
-        window.handleLogin = function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                localStorage.setItem('falkrein_logged_in', 'true');
-                closeModal('loginModal');
-                checkLoginStatus();
-                alert('مرحباً بك في الساحة');
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        };
-
-        window.logout = function() {
-            localStorage.removeItem('falkrein_logged_in');
-            checkLoginStatus();
-            alert('إلى اللقاء');
-        };
-
-        function checkLoginStatus() {
-            const isLoggedIn = localStorage.getItem('falkrein_logged_in') === 'true';
-            const loginBtn = document.getElementById('loginBtn');
-            const adminToolbar = document.getElementById('adminToolbar');
-            const adminElements = document.querySelectorAll('.admin-only');
-            
-            if (isLoggedIn) {
-                loginBtn.innerHTML = '<i class="fas fa-sign-out-alt ml-2"></i>خروج';
-                loginBtn.onclick = logout;
-                adminToolbar.classList.remove('hidden');
-                adminElements.forEach(el => { el.classList.remove('hidden'); el.classList.add('visible'); });
-            } else {
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt ml-2"></i>دخول';
-                loginBtn.onclick = openLoginModal;
-                adminToolbar.classList.add('hidden');
-                adminElements.forEach(el => { el.classList.add('hidden'); el.classList.remove('visible'); });
-                if (editMode) toggleEditMode();
-            }
-        }
-
-        // ==================== تعديل النصوص ====================
-        window.toggleEditMode = function() {
-            editMode = !editMode;
-            document.body.classList.toggle('edit-mode', editMode);
-            if (editMode) {
-                document.querySelectorAll('.editable').forEach(el => el.addEventListener('click', startEditing));
-                alert('يمكنك تعديل النصوص الآن');
-            } else {
-                document.querySelectorAll('.editable').forEach(el => el.removeEventListener('click', startEditing));
-            }
-        };
-
-        function startEditing(e) {
-            if (!editMode) return;
-            const el = e.currentTarget;
-            const section = el.dataset.section;
-            const field = el.dataset.field;
-            const current = el.innerHTML.replace(/<br>/g, '\n').replace(/<[^>]*>/g, '');
-            const newVal = prompt('عدل النص:', current);
-            if (newVal !== null) {
-                el.innerHTML = newVal;
-                if (section && field) {
-                    if (!siteData[section]) siteData[section] = {};
-                    siteData[section][field] = newVal;
-                    localStorage.setItem('falkrein_data', JSON.stringify(siteData));
-                }
-            }
-        }
-
-        // ==================== نظام الصور ====================
-        window.openImageLibrary = function(target) {
+        // ==================== IMAGE FUNCTIONS ====================
+        window.openImageLibraryFor = function(target) {
             currentImageTarget = target;
+            document.getElementById('image-library-modal').classList.remove('hidden');
+            document.getElementById('image-library-modal').classList.add('flex');
             renderImageGallery();
-            openModal('imageLibraryModal');
         };
 
-        window.previewImage = function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('uploadPreview').classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        window.uploadImage = function() {
-            const img = document.getElementById('previewImg').src;
-            if (img) {
-                const newImg = { id: Date.now(), url: img, name: 'صورة ' + (imageLibrary.length+1) };
-                imageLibrary.push(newImg);
-                localStorage.setItem('falkrein_images', JSON.stringify(imageLibrary));
-                renderImageGallery();
-                document.getElementById('uploadPreview').classList.add('hidden');
-                document.getElementById('imageUpload').value = '';
-                alert('تم رفع الصورة');
-            }
-        };
-
-        window.selectImage = function(url) {
+        function selectImage(url) {
             if (currentImageTarget === 'profile') {
-                document.getElementById('profileImage').src = url;
+                document.getElementById('profile-image').src = url;
                 siteData.profile.image = url;
-            } else if (currentImageTarget === 'aboutPage') {
-                document.getElementById('aboutPageImage').src = url;
-                siteData.aboutImage.image = url;
-            } else if (currentImageTarget === 'articleImage') {
-                document.getElementById('articleImage').value = url;
-            } else if (currentImageTarget === 'articleContent') {
-                const textarea = document.getElementById('articleContent');
-                const pos = textarea.selectionStart;
-                const before = textarea.value.substring(0, pos);
-                const after = textarea.value.substring(pos);
-                const markdown = `![صورة](${url})`;
-                textarea.value = before + markdown + after;
-                textarea.selectionStart = textarea.selectionEnd = pos + markdown.length;
-                textarea.focus();
+            } else if (currentImageTarget === 'about-page') {
+                document.getElementById('about-page-image').src = url;
+                siteData.aboutPage.image = url;
+            } else if (currentImageTarget === 'background') {
+                updateBackground(url);
+                document.getElementById('background-modal').classList.add('hidden');
             }
-            localStorage.setItem('falkrein_data', JSON.stringify(siteData));
-            closeModal('imageLibraryModal');
-        };
-
-        window.deleteImage = function(id) {
-            if (confirm('حذف؟')) {
-                imageLibrary = imageLibrary.filter(img => img.id !== id);
-                localStorage.setItem('falkrein_images', JSON.stringify(imageLibrary));
-                renderImageGallery();
-            }
-        };
+            
+            localStorage.setItem('falkreen_site_data', JSON.stringify(siteData));
+            document.getElementById('image-library-modal').classList.add('hidden');
+        }
 
         function renderImageGallery() {
-            const gallery = document.getElementById('imageGallery');
+            const gallery = document.getElementById('image-gallery');
             if (!gallery) return;
+            
             gallery.innerHTML = imageLibrary.map(img => `
                 <div class="gallery-item" onclick="selectImage('${img.url}')">
-                    <img src="${img.url}" alt="${img.name}">
+                    <img src="${img.url}" alt="${img.name}" loading="lazy">
                     <div class="gallery-item-overlay">
-                        <button onclick="event.stopPropagation(); deleteImage(${img.id})">
+                        <button onclick="event.stopPropagation(); copyImageUrl('${img.url}')" title="نسخ الرابط">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button onclick="event.stopPropagation(); deleteImage(${img.id})" title="حذف">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1498,169 +707,253 @@
             `).join('');
         }
 
-        // ==================== نظام المقالات ====================
-        window.openArticleModal = function(article = null) {
-            document.getElementById('articleModalTitle').textContent = article ? 'تعديل مقال' : 'مقال جديد';
+        window.copyImageUrl = function(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('تم نسخ رابط الصورة');
+            });
+        };
+
+        window.deleteImage = function(id) {
+            if (confirm('هل أنت متأكد من حذف هذه الصورة؟')) {
+                imageLibrary = imageLibrary.filter(img => img.id !== id);
+                localStorage.setItem('falkreen_images', JSON.stringify(imageLibrary));
+                renderImageGallery();
+            }
+        };
+
+        // ==================== TEXT EDITING FUNCTIONS ====================
+        function toggleEditMode() {
+            editModeActive = !editModeActive;
+            document.body.classList.toggle('edit-mode', editModeActive);
             
-            if (article) {
-                document.getElementById('articleId').value = article.id;
-                document.getElementById('articleTitle').value = article.title;
-                document.getElementById('articleExcerpt').value = article.excerpt;
-                document.getElementById('articleImage').value = article.image || '';
-                document.getElementById('articleContent').value = article.content;
-                document.getElementById('articleStatus').value = article.status || 'published';
-                document.getElementById('articleCategory').value = article.category || '';
+            if (editModeActive) {
+                document.querySelectorAll('.editable').forEach(el => {
+                    el.addEventListener('click', startEditing);
+                });
             } else {
-                document.getElementById('articleForm').reset();
-                document.getElementById('articleId').value = '';
+                document.querySelectorAll('.editable').forEach(el => {
+                    el.removeEventListener('click', startEditing);
+                });
+                document.getElementById('edit-panel').classList.add('hidden');
             }
-            
-            openModal('articleModal');
-        };
+        }
 
-        window.saveArticle = function(e) {
-            e.preventDefault();
-            const id = document.getElementById('articleId').value;
-            const title = document.getElementById('articleTitle').value;
-            const category = document.getElementById('articleCategory').value;
-            const excerpt = document.getElementById('articleExcerpt').value;
-            const image = document.getElementById('articleImage').value || 'https://via.placeholder.com/600x400/1a1d24/a78bfa?text=فلكرين';
-            const content = document.getElementById('articleContent').value;
-            const status = document.getElementById('articleStatus').value;
+        function startEditing(e) {
+            if (!editModeActive) return;
             
-            if (id) {
-                const index = articles.findIndex(a => a.id == id);
-                if (index !== -1) {
-                    articles[index] = { ...articles[index], title, category, excerpt, image, content, status };
-                }
-            } else {
-                const newArticle = {
-                    id: Date.now(),
-                    title,
-                    category,
-                    excerpt,
-                    image,
-                    content,
-                    date: new Date().toISOString().split('T')[0],
-                    views: 0,
-                    status
-                };
-                articles.unshift(newArticle);
-            }
-            localStorage.setItem('falkrein_articles', JSON.stringify(articles));
-            renderArticles();
-            closeModal('articleModal');
-            alert('تم الحفظ');
-        };
-
-        window.deleteArticle = function(id) {
-            if (confirm('حذف المقال؟')) {
-                articles = articles.filter(a => a.id != id);
-                localStorage.setItem('falkrein_articles', JSON.stringify(articles));
-                renderArticles();
-            }
-        };
-
-        function renderArticles() {
-            const grid = document.getElementById('articlesGrid');
-            if (!grid) return;
+            const element = e.currentTarget;
+            currentEditElement = element;
             
-            const isAdmin = localStorage.getItem('falkrein_logged_in') === 'true';
-            const filtered = isAdmin ? articles : articles.filter(a => a.status === 'published');
+            const section = element.dataset.section;
+            const field = element.dataset.field;
+            const currentValue = element.innerHTML;
             
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-3 text-center py-12"><p style="color: var(--text-secondary);">لا توجد مقالات بعد</p></div>';
-                return;
-            }
+            const panel = document.getElementById('edit-panel');
+            const content = document.getElementById('edit-content');
             
-            grid.innerHTML = filtered.map(article => {
-                const category = categories.find(c => c.id === article.category);
-                const isHidden = article.status !== 'published';
-                return `
-                    <div class="yard-card relative p-4" onclick="viewArticle(${article.id})">
-                        ${isHidden ? '<span class="hidden-badge">مخفي</span>' : ''}
-                        <img src="${article.image}" alt="${article.title}" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <div class="flex items-start justify-between mb-2">
-                            <h4 class="font-bold" style="color: var(--accent-cyan);">${article.title}</h4>
-                            ${isAdmin ? `
-                                <div class="flex gap-2">
-                                    <button onclick="event.stopPropagation(); openArticleModal(${JSON.stringify(article).replace(/"/g, '&quot;')})" class="text-accent-purple hover:text-accent-pink">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button onclick="event.stopPropagation(); deleteArticle(${article.id})" class="text-red-400 hover:text-red-300">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            ` : ''}
-                        </div>
-                        ${category ? `<span class="yard-tag">${category.name}</span>` : ''}
-                        <p class="mt-2 text-sm" style="color: var(--text-secondary);">${article.excerpt}</p>
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">تعديل النص</label>
+                        <textarea id="edit-textarea" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="8">${currentValue.replace(/<br>/g, '\n').replace(/<[^>]*>/g, '')}</textarea>
                     </div>
-                `;
-            }).join('');
-        }
-
-        // ==================== نظام التصنيفات ====================
-        window.openCategoryModal = function() {
-            renderCategoriesAdmin();
-            openModal('categoryModal');
-        };
-
-        window.addCategory = function(e) {
-            e.preventDefault();
-            const name = document.getElementById('newCategoryName').value;
-            const id = document.getElementById('newCategoryId').value.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-            const color = document.getElementById('newCategoryColor').value;
-            if (categories.some(c => c.id === id)) { alert('موجود'); return; }
-            categories.push({ id, name, color });
-            localStorage.setItem('falkrein_categories', JSON.stringify(categories));
-            renderCategories();
-            renderCategoriesAdmin();
-            document.getElementById('categoryForm').reset();
-        };
-
-        window.deleteCategory = function(id) {
-            if (confirm('حذف التصنيف؟')) {
-                categories = categories.filter(c => c.id !== id);
-                localStorage.setItem('falkrein_categories', JSON.stringify(categories));
-                renderCategories();
-                renderCategoriesAdmin();
-            }
-        };
-
-        function renderCategories() {
-            const list = document.getElementById('categoriesList');
-            if (!list) return;
-            list.innerHTML = categories.map(cat => `<span class="yard-tag">${cat.name}</span>`).join('');
-            
-            const select = document.getElementById('articleCategory');
-            if (select) select.innerHTML = '<option value="">اختر</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-        }
-
-        function renderCategoriesAdmin() {
-            const list = document.getElementById('categoriesListAdmin');
-            if (!list) return;
-            list.innerHTML = categories.map(cat => `
-                <div class="flex items-center justify-between p-2 rounded" style="background: rgba(0,0,0,0.2);">
-                    <span class="yard-tag">${cat.name}</span>
-                    <button onclick="deleteCategory('${cat.id}')" class="text-red-400 hover:text-red-300">
-                        <i class="fas fa-trash"></i>
+                    <button id="save-edit" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-secondary">
+                        حفظ التعديل
                     </button>
                 </div>
-            `).join('');
+            `;
+            
+            panel.classList.remove('hidden');
+            
+            document.getElementById('save-edit').addEventListener('click', function() {
+                const newValue = document.getElementById('edit-textarea').value.replace(/\n/g, '<br>');
+                element.innerHTML = newValue;
+                
+                // تحديث البيانات
+                if (section && field) {
+                    if (!siteData[section]) siteData[section] = {};
+                    siteData[section][field] = newValue;
+                    localStorage.setItem('falkreen_site_data', JSON.stringify(siteData));
+                }
+                
+                panel.classList.add('hidden');
+                editModeActive = false;
+                document.body.classList.remove('edit-mode');
+            });
         }
 
-        // ==================== نموذج الاتصال ====================
-        window.handleContactSubmit = function(e) {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value;
-            window.location.href = `mailto:ktaha1171@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('الاسم: ' + name + '\nالبريد: ' + email + '\n\n' + message)}`;
-            alert('سيتم فتح بريدك');
-            e.target.reset();
+        // ==================== INITIALIZATION ====================
+        function initializePage() {
+            // تطبيق الخلفية المحفوظة
+            if (siteData.background.image) {
+                document.getElementById('background-layer').style.backgroundImage = `url('${siteData.background.image}')`;
+            }
+            if (siteData.background.opacity) {
+                document.getElementById('background-overlay').style.backgroundColor = `rgba(255, 255, 255, ${1 - siteData.background.opacity})`;
+            }
+
+            // تطبيق الصور
+            document.getElementById('profile-image').src = siteData.profile.image;
+            if (document.getElementById('about-page-image')) {
+                document.getElementById('about-page-image').src = siteData.aboutPage.image;
+            }
+
+            // باقي التهيئة...
+            renderImageGallery();
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            // Background modal
+            document.getElementById('manage-background').addEventListener('click', () => {
+                document.getElementById('background-modal').classList.remove('hidden');
+                document.getElementById('background-modal').classList.add('flex');
+                document.getElementById('current-background-preview').style.backgroundImage = siteData.background.image ? `url('${siteData.background.image}')` : 'none';
+                document.getElementById('bg-opacity').value = siteData.background.opacity || 0.95;
+            });
+
+            document.getElementById('close-background-modal').addEventListener('click', () => {
+                document.getElementById('background-modal').classList.add('hidden');
+                document.getElementById('background-modal').classList.remove('flex');
+            });
+
+            document.getElementById('select-background-image').addEventListener('click', () => {
+                currentImageTarget = 'background';
+                document.getElementById('image-library-modal').classList.remove('hidden');
+                document.getElementById('image-library-modal').classList.add('flex');
+                renderImageGallery();
+            });
+
+            document.getElementById('apply-background').addEventListener('click', () => {
+                const url = document.getElementById('background-image-url').value;
+                if (url) {
+                    updateBackground(url);
+                    document.getElementById('background-modal').classList.add('hidden');
+                }
+            });
+
+            document.querySelectorAll('.preset-bg').forEach(el => {
+                el.addEventListener('click', () => {
+                    const bg = el.dataset.bg;
+                    updateBackground(bg);
+                    document.getElementById('background-modal').classList.add('hidden');
+                });
+            });
+
+            document.getElementById('bg-opacity').addEventListener('input', (e) => {
+                updateBackgroundOpacity(e.target.value);
+            });
+
+            // Image upload
+            document.getElementById('select-image-btn').addEventListener('click', () => {
+                document.getElementById('image-upload').click();
+            });
+
+            document.getElementById('image-upload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('preview-img').src = e.target.result;
+                        document.getElementById('upload-preview').classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            document.getElementById('confirm-upload').addEventListener('click', async function() {
+                const file = document.getElementById('image-upload').files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const newImage = {
+                            id: Date.now(),
+                            url: e.target.result,
+                            name: file.name,
+                            date: new Date().toISOString().split('T')[0]
+                        };
+                        imageLibrary.push(newImage);
+                        localStorage.setItem('falkreen_images', JSON.stringify(imageLibrary));
+                        renderImageGallery();
+                        document.getElementById('upload-preview').classList.add('hidden');
+                        document.getElementById('image-upload').value = '';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            document.getElementById('close-image-library').addEventListener('click', () => {
+                document.getElementById('image-library-modal').classList.add('hidden');
+                document.getElementById('image-library-modal').classList.remove('flex');
+            });
+
+            // Edit mode
+            document.getElementById('toggle-edit-mode').addEventListener('click', toggleEditMode);
+            document.getElementById('close-edit-panel').addEventListener('click', () => {
+                document.getElementById('edit-panel').classList.add('hidden');
+                editModeActive = false;
+                document.body.classList.remove('edit-mode');
+            });
+
+            // Login (مختصر)
+            document.getElementById('login-btn').addEventListener('click', function() {
+                const isLoggedIn = localStorage.getItem('falkreen_logged_in') === 'true';
+                if (isLoggedIn) {
+                    localStorage.removeItem('falkreen_logged_in');
+                    location.reload();
+                } else {
+                    document.getElementById('login-modal').classList.remove('hidden');
+                    document.getElementById('login-modal').classList.add('flex');
+                }
+            });
+
+            // Close modals when clicking outside
+            document.getElementById('login-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                    this.classList.remove('flex');
+                }
+            });
+
+            document.getElementById('background-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                    this.classList.remove('flex');
+                }
+            });
+
+            document.getElementById('image-library-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                    this.classList.remove('flex');
+                }
+            });
+        }
+
+        // ==================== PAGE NAVIGATION ====================
+        window.showPage = function(page) {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('about-page').classList.add('hidden');
+            document.getElementById('privacy-page').classList.add('hidden');
+            document.getElementById('terms-page').classList.add('hidden');
+            document.getElementById('contact-page').classList.add('hidden');
+            
+            document.getElementById(page + '-page').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
+
+        // ==================== INITIALIZE ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            setupEventListeners();
+            
+            // Check login status
+            const isLoggedIn = localStorage.getItem('falkreen_logged_in') === 'true';
+            if (isLoggedIn) {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                document.getElementById('login-btn').innerHTML = '<i class="fas fa-sign-out-alt ml-2"></i>تسجيل الخروج';
+            }
+        });
     </script>
 </body>
 </html>
