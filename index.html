@@ -31,8 +31,6 @@
     <style>
         body { font-family: 'Cairo', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        
-        /* أنماط المحتوى */
         .article-content img { 
             max-width: 100%; 
             height: auto; 
@@ -53,20 +51,6 @@
             font-weight: 600; 
             margin: 1.5rem 0 1rem;
             color: #334155;
-        }
-        .article-content p { 
-            line-height: 1.8; 
-            margin-bottom: 1.2rem;
-            color: #475569;
-        }
-        .code-block { 
-            background-color: #1e293b; 
-            color: #e2e8f0; 
-            padding: 1rem; 
-            border-radius: 0.5rem; 
-            font-family: monospace; 
-            overflow-x: auto;
-            margin: 1.5rem 0;
         }
         .editable { transition: all 0.2s; }
         .editable:hover { outline: 2px dashed #4f46e5; cursor: pointer; background-color: rgba(79, 70, 229, 0.05); }
@@ -186,38 +170,6 @@
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 0.5rem;
         }
-        .static-page h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin: 1.5rem 0 1rem;
-        }
-        .static-page ul, .static-page ol {
-            margin: 1rem 0 1rem 2rem;
-            color: #475569;
-        }
-        
-        /* معاينة الصور المختارة */
-        .selected-images-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 0.5rem;
-            margin-top: 1rem;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 0.5rem;
-        }
-        .preview-item {
-            position: relative;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .preview-item img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-        }
         
         /* تحسين ظهور النوافذ */
         .modal {
@@ -249,7 +201,7 @@
             overflow: hidden;
         }
         
-        /* تنسيق الشعار ليكون رابط */
+        /* الشعار كرابط */
         .site-logo {
             cursor: pointer;
             transition: opacity 0.2s;
@@ -334,7 +286,7 @@
                 <!-- Preview uploaded images -->
                 <div id="upload-preview-container" class="mt-6 hidden">
                     <h4 class="font-bold mb-4">الصور المرفوعة:</h4>
-                    <div id="uploaded-previews" class="selected-images-preview"></div>
+                    <div id="uploaded-previews" class="grid grid-cols-4 gap-2"></div>
                 </div>
             </div>
             
@@ -360,12 +312,12 @@
         </div>
     </div>
 
-    <!-- Header مع شعار قابل للنقر وروابط سريعة كاملة -->
+    <!-- Header -->
     <header class="gradient-bg text-white shadow-lg">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <!-- الشعار - عند النقر يذهب للرئيسية -->
-                <div class="flex items-center space-x-2 space-x-reverse mb-4 md:mb-0 site-logo" onclick="showPage('home')">
+                <div class="flex items-center space-x-2 space-x-reverse mb-4 md:mb-0 site-logo" onclick="window.showPage('home')">
                     <i class="fas fa-book-open text-2xl"></i>
                     <h1 id="site-title" class="text-2xl font-bold editable" data-section="site" data-field="title">فلكرين</h1>
                 </div>
@@ -375,7 +327,7 @@
                     <!-- سيتم تعبئتها عبر JavaScript -->
                 </ul>
                 
-                <!-- زر تسجيل الدخول -->
+                <!-- زر تسجيل الدخول/الخروج -->
                 <div class="mt-4 md:mt-0">
                     <button id="login-btn" class="bg-white text-primary px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
                         <i class="fas fa-sign-in-alt ml-2"></i>تسجيل الدخول
@@ -458,7 +410,6 @@
         <div id="about-page" class="hidden">
             <div class="static-page">
                 <h2 id="about-page-title" class="editable" data-section="aboutPage" data-field="title">عن فلكرين</h2>
-                
                 <div class="flex flex-col md:flex-row gap-8 items-start mb-8">
                     <div class="md:w-1/3 relative group">
                         <img id="about-page-image" src="https://picsum.photos/400/400?random=100" alt="فلكرين" class="rounded-2xl shadow-xl w-full">
@@ -472,7 +423,6 @@
                         <p id="about-page-text2" class="editable" data-section="aboutPage" data-field="text2">ما بدأ كهواية تحول مع الوقت إلى شغف حقيقي بترجمة هذه الأعمال الرائعة إلى اللغة العربية، لمشاركة المتعة مع المجتمع العربي الذي يستحق الاستمتاع بهذه التجارب الفريدة.</p>
                     </div>
                 </div>
-                
                 <h3 id="about-vision-title" class="editable" data-section="aboutPage" data-field="visionTitle">رؤيتي</h3>
                 <p id="about-vision-text" class="editable" data-section="aboutPage" data-field="visionText">أسعى من خلال "فلكرين" إلى بناء جسر بين الثقافة العربية واليابانية في عالم ألعاب الفيجوال نوفل. هدفي هو توفير محتوى عربي عالي الجودة يشمل:</p>
                 <ul id="about-vision-list" class="editable-list">
@@ -481,10 +431,8 @@
                     <li class="editable-item"><strong>مراجعات وتحليلات:</strong> لأعمال الفيجوال نوفل من منظور عربي</li>
                     <li class="editable-item"><strong>أدوات وموارد:</strong> للمترجمين والمطورين العرب</li>
                 </ul>
-                
                 <h3 id="about-name-title" class="editable" data-section="aboutPage" data-field="nameTitle">لماذا "فلكرين"؟</h3>
                 <p id="about-name-text" class="editable" data-section="aboutPage" data-field="nameText">الاسم مستوحى من عالم الألعاب والروايات الخيالية التي أحبها. "فلكرين" هي كلمة تعكس روح المغامرة والاستكشاف التي تميز هذا النوع من الألعاب.</p>
-                
                 <h3 id="about-content-title" class="editable" data-section="aboutPage" data-field="contentTitle">ماذا ستجد هنا؟</h3>
                 <ul id="about-content-list" class="editable-list">
                     <li class="editable-item">📝 مقالات عن الترجمة وتقنياتها</li>
@@ -494,7 +442,6 @@
                     <li class="editable-item">🗾 محتوى عن الثقافة اليابانية</li>
                     <li class="editable-item">💬 تجارب شخصية في عالم الترجمة</li>
                 </ul>
-                
                 <h3 id="about-contact-title" class="editable" data-section="aboutPage" data-field="contactTitle">تواصل معي</h3>
                 <p id="about-contact-text" class="editable" data-section="aboutPage" data-field="contactText">سأكون سعيداً بسماع رأيك واقتراحاتك. يمكنك التواصل معي عبر:</p>
                 <ul id="about-contact-list" class="editable-list">
@@ -503,10 +450,8 @@
                     <li class="editable-item"><i class="fab fa-github ml-2 text-gray-800"></i> جيت هب: flkrin1171</li>
                     <li class="editable-item"><i class="fas fa-envelope ml-2 text-primary"></i> البريد الإلكتروني: ktaha1171@gmail.com</li>
                 </ul>
-                
                 <p id="about-footer-text" class="mt-8 p-4 bg-blue-50 rounded-lg editable" data-section="aboutPage" data-field="footerText">
-                    <i class="fas fa-heart text-red-500 ml-2"></i>
-                    شكراً لزيارتك، وأتمنى أن تجد في فلكرين ما يثري شغفك بعالم الفيجوال نوفل!
+                    <i class="fas fa-heart text-red-500 ml-2"></i> شكراً لزيارتك، وأتمنى أن تجد في فلكرين ما يثري شغفك بعالم الفيجوال نوفل!
                 </p>
             </div>
         </div>
@@ -515,12 +460,10 @@
         <div id="contact-page" class="hidden">
             <div class="static-page">
                 <h2 id="contact-title" class="editable" data-section="contact" data-field="title">اتصل بي</h2>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div>
                         <h3 id="contact-info-title" class="editable" data-section="contact" data-field="infoTitle">معلومات التواصل</h3>
                         <p id="contact-info-text" class="editable" data-section="contact" data-field="infoText">أنا سعيد دائمًا بالتواصل مع زوار الموقع. سواء كان لديك سؤال، اقتراح، أو مجرد تحية، لا تتردد في مراسلتي!</p>
-                        
                         <div class="space-y-4 mt-6">
                             <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                                 <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
@@ -531,68 +474,18 @@
                                     <a href="mailto:ktaha1171@gmail.com" class="text-primary hover:underline">ktaha1171@gmail.com</a>
                                 </div>
                             </div>
-                            
-                            <div class="flex items-center gap-4 p-4 bg-red-50 rounded-lg">
-                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <i class="fab fa-youtube text-red-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">يوتيوب</h4>
-                                    <a href="https://www.youtube.com/@Flkrin" target="_blank" class="text-primary hover:underline">@Flkrin</a>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 p-4 bg-indigo-50 rounded-lg">
-                                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                                    <i class="fab fa-discord text-indigo-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">ديسكورد</h4>
-                                    <a href="https://discord.com/invite/V3AV9nb4Sk" target="_blank" class="text-primary hover:underline">انضم للسيرفر</a>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 p-4 bg-gray-800 bg-opacity-10 rounded-lg">
-                                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fab fa-github text-gray-800 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">جيت هب</h4>
-                                    <a href="https://github.com/flkrin1171" target="_blank" class="text-primary hover:underline">flkrin1171</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    
                     <div>
                         <h3 id="contact-form-title" class="editable" data-section="contact" data-field="formTitle">راسلني مباشرة</h3>
                         <form id="contact-form" class="space-y-4" onsubmit="handleContactSubmit(event)">
-                            <div>
-                                <label class="block text-gray-700 mb-2">الاسم</label>
-                                <input type="text" id="contact-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">البريد الإلكتروني</label>
-                                <input type="email" id="contact-email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">الموضوع</label>
-                                <input type="text" id="contact-subject" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">الرسالة</label>
-                                <textarea id="contact-message" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary transition duration-300">
-                                <i class="fas fa-paper-plane ml-2"></i>إرسال الرسالة
-                            </button>
+                            <div><label class="block text-gray-700 mb-2">الاسم</label><input type="text" id="contact-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                            <div><label class="block text-gray-700 mb-2">البريد الإلكتروني</label><input type="email" id="contact-email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                            <div><label class="block text-gray-700 mb-2">الموضوع</label><input type="text" id="contact-subject" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                            <div><label class="block text-gray-700 mb-2">الرسالة</label><textarea id="contact-message" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea></div>
+                            <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary transition duration-300"><i class="fas fa-paper-plane ml-2"></i>إرسال الرسالة</button>
                         </form>
                     </div>
-                </div>
-                
-                <div class="bg-blue-50 p-6 rounded-lg">
-                    <h3 class="text-primary mb-2">💡 نصيحة</h3>
-                    <p>للحصول على رد سريع، يفضل التواصل عبر ديسكورد حيث أكون أكثر نشاطاً. يمكنك أيضاً متابعتي على يوتيوب لمشاهدة أحدث الترجمات والدروس.</p>
                 </div>
             </div>
         </div>
@@ -607,7 +500,7 @@
             </div>
         </div>
 
-        <!-- Terms of Service Page -->
+        <!-- Terms Page -->
         <div id="terms-page" class="hidden">
             <div class="static-page">
                 <h2 id="terms-title" class="editable" data-section="terms" data-field="title">شروط الاستخدام</h2>
@@ -622,46 +515,30 @@
     <footer class="bg-dark text-white py-8">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h4 class="text-xl font-bold mb-4">فلكرين</h4>
-                    <p class="text-gray-300">مدونة شخصية عن ترجمة الألعاب والروايات المرئية اليابانية.</p>
-                </div>
-                
+                <div><h4 class="text-xl font-bold mb-4">فلكرين</h4><p class="text-gray-300">مدونة شخصية عن ترجمة الألعاب والروايات المرئية اليابانية.</p></div>
                 <div>
                     <h4 class="text-xl font-bold mb-4">روابط سريعة</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" onclick="showPage('home'); return false;" class="text-gray-300 hover:text-white transition">الرئيسية</a></li>
-                        <li><a href="#" onclick="showPage('about'); return false;" class="text-gray-300 hover:text-white transition">عن فلكرين</a></li>
-                        <li><a href="#" onclick="showPage('contact'); return false;" class="text-gray-300 hover:text-white transition">اتصل بي</a></li>
-                        <li><a href="#" onclick="showPage('privacy'); return false;" class="text-gray-300 hover:text-white transition">سياسة الخصوصية</a></li>
-                        <li><a href="#" onclick="showPage('terms'); return false;" class="text-gray-300 hover:text-white transition">شروط الاستخدام</a></li>
+                        <li><a href="#" onclick="window.showPage('home'); return false;" class="text-gray-300 hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#" onclick="window.showPage('about'); return false;" class="text-gray-300 hover:text-white transition">عن فلكرين</a></li>
+                        <li><a href="#" onclick="window.showPage('contact'); return false;" class="text-gray-300 hover:text-white transition">اتصل بي</a></li>
+                        <li><a href="#" onclick="window.showPage('privacy'); return false;" class="text-gray-300 hover:text-white transition">سياسة الخصوصية</a></li>
+                        <li><a href="#" onclick="window.showPage('terms'); return false;" class="text-gray-300 hover:text-white transition">شروط الاستخدام</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4 class="text-xl font-bold mb-4">تواصل معي</h4>
                     <div class="flex flex-col space-y-3">
-                        <a id="social-youtube" href="https://www.youtube.com/@Flkrin" target="_blank" class="flex items-center text-gray-300 hover:text-red-500 transition duration-300">
-                            <i class="fab fa-youtube text-xl ml-3"></i> يوتيوب
-                        </a>
-                        <a id="social-discord" href="https://discord.com/invite/V3AV9nb4Sk" target="_blank" class="flex items-center text-gray-300 hover:text-indigo-400 transition duration-300">
-                            <i class="fab fa-discord text-xl ml-3"></i> ديسكورد
-                        </a>
-                        <a id="social-github" href="https://github.com/flkrin1171" target="_blank" class="flex items-center text-gray-300 hover:text-white transition duration-300">
-                            <i class="fab fa-github text-xl ml-3"></i> جيت هب
-                        </a>
+                        <a id="social-youtube" href="https://www.youtube.com/@Flkrin" target="_blank" class="flex items-center text-gray-300 hover:text-red-500 transition"><i class="fab fa-youtube text-xl ml-3"></i> يوتيوب</a>
+                        <a id="social-discord" href="https://discord.com/invite/V3AV9nb4Sk" target="_blank" class="flex items-center text-gray-300 hover:text-indigo-400 transition"><i class="fab fa-discord text-xl ml-3"></i> ديسكورد</a>
+                        <a id="social-github" href="https://github.com/flkrin1171" target="_blank" class="flex items-center text-gray-300 hover:text-white transition"><i class="fab fa-github text-xl ml-3"></i> جيت هب</a>
                     </div>
                 </div>
-                
                 <div>
                     <h4 class="text-xl font-bold mb-4">الدعم المالي</h4>
-                    <a id="footer-support" href="https://buymeacoffee.com/ktaha1171c" target="_blank" 
-                       class="inline-flex items-center bg-yellow-500 text-dark px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-300">
-                        <i class="fas fa-coffee ml-2"></i>اشتر لي قهوة
-                    </a>
+                    <a id="footer-support" href="https://buymeacoffee.com/ktaha1171c" target="_blank" class="inline-flex items-center bg-yellow-500 text-dark px-4 py-2 rounded-lg hover:bg-yellow-400 transition"><i class="fas fa-coffee ml-2"></i>اشتر لي قهوة</a>
                 </div>
             </div>
-            
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
                 <p id="copyright-text" class="editable" data-section="footer" data-field="copyright">© 2024 فلكرين. جميع الحقوق محفوظة.</p>
             </div>
@@ -687,68 +564,29 @@
             <h3 id="article-modal-title" class="text-2xl font-bold text-primary mb-6">إضافة/تعديل مقال</h3>
             <form id="article-form">
                 <input type="hidden" id="article-id">
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block mb-2">عنوان المقال</label>
-                        <input type="text" id="article-title" class="w-full p-2 border rounded-lg" required>
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2">التصنيف</label>
-                        <select id="article-category" class="w-full p-2 border rounded-lg" required>
-                            <option value="">اختر تصنيف</option>
-                        </select>
-                    </div>
+                    <div><label class="block mb-2">عنوان المقال</label><input type="text" id="article-title" class="w-full p-2 border rounded-lg" required></div>
+                    <div><label class="block mb-2">التصنيف</label><select id="article-category" class="w-full p-2 border rounded-lg" required><option value="">اختر تصنيف</option></select></div>
                 </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2">الرابط المختصر (slug)</label>
-                    <input type="text" id="article-slug" class="w-full p-2 border rounded-lg" placeholder="مثال: كيف-بدأت-ترجمة-الألعاب">
-                </div>
-                
+                <div class="mb-4"><label class="block mb-2">الرابط المختصر (slug)</label><input type="text" id="article-slug" class="w-full p-2 border rounded-lg" placeholder="مثال: كيف-بدأت-ترجمة-الألعاب"></div>
                 <div class="mb-4">
                     <label class="block mb-2">الصورة الرئيسية</label>
                     <div class="flex gap-2">
                         <input type="text" id="article-image" class="flex-1 p-2 border rounded-lg" placeholder="اختر صورة من المكتبة" readonly>
-                        <button type="button" id="select-main-image" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
-                            <i class="fas fa-image ml-2"></i>اختر صورة
-                        </button>
+                        <button type="button" id="select-main-image" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700"><i class="fas fa-image ml-2"></i>اختر صورة</button>
                     </div>
-                    <div id="main-image-preview" class="mt-2 hidden">
-                        <img src="" alt="Preview" class="max-h-32 rounded-lg">
-                    </div>
+                    <div id="main-image-preview" class="mt-2 hidden"><img src="" alt="Preview" class="max-h-32 rounded-lg"></div>
                 </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2">وصف مختصر</label>
-                    <textarea id="article-excerpt" class="w-full p-2 border rounded-lg" rows="3" required></textarea>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block mb-2">حالة المقال</label>
-                    <select id="article-status" class="w-full p-2 border rounded-lg">
-                        <option value="published">منشور</option>
-                        <option value="draft">مسودة</option>
-                        <option value="hidden">مخفي</option>
-                    </select>
-                </div>
-                
+                <div class="mb-4"><label class="block mb-2">وصف مختصر</label><textarea id="article-excerpt" class="w-full p-2 border rounded-lg" rows="3" required></textarea></div>
+                <div class="mb-4"><label class="block mb-2">حالة المقال</label><select id="article-status" class="w-full p-2 border rounded-lg"><option value="published">منشور</option><option value="draft">مسودة</option><option value="hidden">مخفي</option></select></div>
                 <div class="mb-4">
                     <div class="flex justify-between items-center mb-2">
                         <label class="block">محتوى المقال (يدعم Markdown)</label>
-                        <button type="button" id="insert-image-to-content" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700">
-                            <i class="fas fa-image ml-1"></i>إدراج صورة
-                        </button>
+                        <button type="button" id="insert-image-to-content" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700"><i class="fas fa-image ml-1"></i>إدراج صورة</button>
                     </div>
                     <textarea id="article-content" class="w-full p-2 border rounded-lg font-mono" rows="15" required></textarea>
                 </div>
-                
-                <div id="article-content-preview" class="border rounded-lg p-4 bg-gray-50 hidden mb-4">
-                    <h4 class="font-bold mb-2">معاينة المحتوى:</h4>
-                    <div class="article-content prose prose-lg max-w-none"></div>
-                </div>
-                
+                <div id="article-content-preview" class="border rounded-lg p-4 bg-gray-50 hidden mb-4"><h4 class="font-bold mb-2">معاينة المحتوى:</h4><div class="article-content prose prose-lg max-w-none"></div></div>
                 <div class="flex justify-end gap-2">
                     <button type="button" id="cancel-article" class="px-4 py-2 border rounded-lg hover:bg-gray-50">إلغاء</button>
                     <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary">حفظ المقال</button>
@@ -762,93 +600,33 @@
         <div class="modal-content max-w-md w-full p-6">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-primary">إدارة التصنيفات</h3>
-                <button id="close-category-modal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button id="close-category-modal" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
             </div>
-            
             <div id="categories-list-admin" class="space-y-4 mb-6 max-h-60 overflow-y-auto"></div>
-            
             <form id="category-form" class="border-t pt-6">
                 <h4 class="font-bold mb-4">إضافة تصنيف جديد</h4>
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-gray-700 mb-2">الاسم</label>
-                        <input type="text" id="new-category-name" class="w-full p-2 border rounded-lg" required>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2">المعرف (id)</label>
-                        <input type="text" id="new-category-id" class="w-full p-2 border rounded-lg" required>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2">اللون</label>
-                        <select id="new-category-color" class="w-full p-2 border rounded-lg">
-                            <option value="bg-blue-100 text-blue-800">أزرق</option>
-                            <option value="bg-green-100 text-green-800">أخضر</option>
-                            <option value="bg-purple-100 text-purple-800">بنفسجي</option>
-                            <option value="bg-pink-100 text-pink-800">وردي</option>
-                            <option value="bg-yellow-100 text-yellow-800">أصفر</option>
-                            <option value="bg-indigo-100 text-indigo-800">نيلي</option>
-                            <option value="bg-red-100 text-red-800">أحمر</option>
-                            <option value="bg-orange-100 text-orange-800">برتقالي</option>
-                        </select>
-                    </div>
+                    <div><label class="block text-gray-700 mb-2">الاسم</label><input type="text" id="new-category-name" class="w-full p-2 border rounded-lg" required></div>
+                    <div><label class="block text-gray-700 mb-2">المعرف (id)</label><input type="text" id="new-category-id" class="w-full p-2 border rounded-lg" required></div>
+                    <div><label class="block text-gray-700 mb-2">اللون</label><select id="new-category-color" class="w-full p-2 border rounded-lg"><option value="bg-blue-100 text-blue-800">أزرق</option><option value="bg-green-100 text-green-800">أخضر</option><option value="bg-purple-100 text-purple-800">بنفسجي</option></select></div>
                 </div>
                 <button type="submit" class="mt-4 w-full bg-primary text-white py-2 rounded-lg hover:bg-secondary">إضافة التصنيف</button>
             </form>
         </div>
     </div>
 
-    <!-- Site Settings Modal -->
+    <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
         <div class="modal-content max-w-2xl w-full p-6">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-primary">إعدادات الموقع</h3>
-                <button id="close-settings-modal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button id="close-settings-modal" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
             </div>
-            
             <form id="settings-form" class="space-y-6">
-                <div>
-                    <label class="block text-gray-700 mb-2">اسم الموقع</label>
-                    <input type="text" id="settings-site-title" class="w-full p-2 border rounded-lg">
-                </div>
-                
-                <div>
-                    <label class="block text-gray-700 mb-2">صورة الملف الشخصي</label>
-                    <div class="flex gap-4">
-                        <input type="text" id="settings-profile-image" class="flex-1 p-2 border rounded-lg">
-                        <button type="button" id="select-profile-image" class="bg-purple-600 text-white px-4 py-2 rounded-lg">اختر</button>
-                    </div>
-                </div>
-                
-                <div>
-                    <label class="block text-gray-700 mb-2">وصف الموقع</label>
-                    <textarea id="settings-site-description" class="w-full p-2 border rounded-lg" rows="3"></textarea>
-                </div>
-                
-                <div class="border-t pt-6">
-                    <h4 class="font-bold mb-4">روابط التواصل الاجتماعي</h4>
-                    <div class="space-y-4">
-                        <div><label>يوتيوب</label><input type="url" id="settings-youtube" class="w-full p-2 border rounded-lg"></div>
-                        <div><label>ديسكورد</label><input type="url" id="settings-discord" class="w-full p-2 border rounded-lg"></div>
-                        <div><label>جيت هب</label><input type="url" id="settings-github" class="w-full p-2 border rounded-lg"></div>
-                        <div><label>رابط الدعم</label><input type="url" id="settings-kofi" class="w-full p-2 border rounded-lg"></div>
-                    </div>
-                </div>
-                
-                <div class="border-t pt-6">
-                    <h4 class="font-bold mb-4">نصوص الصفحة الرئيسية</h4>
-                    <div class="space-y-4">
-                        <div><label>عنوان القسم الرئيسي</label><input type="text" id="settings-hero-title" class="w-full p-2 border rounded-lg"></div>
-                        <div><label>وصف القسم الرئيسي</label><textarea id="settings-hero-description" class="w-full p-2 border rounded-lg" rows="3"></textarea></div>
-                        <div><label>عنوان قسم "من أنا"</label><input type="text" id="settings-about-title" class="w-full p-2 border rounded-lg"></div>
-                        <div><label>نص قسم "من أنا"</label><textarea id="settings-about-content" class="w-full p-2 border rounded-lg" rows="5"></textarea></div>
-                        <div><label>نص الحقوق (Footer)</label><input type="text" id="settings-copyright" class="w-full p-2 border rounded-lg"></div>
-                    </div>
-                </div>
-                
+                <div><label class="block text-gray-700 mb-2">اسم الموقع</label><input type="text" id="settings-site-title" class="w-full p-2 border rounded-lg"></div>
+                <div><label class="block text-gray-700 mb-2">صورة الملف الشخصي</label><div class="flex gap-4"><input type="text" id="settings-profile-image" class="flex-1 p-2 border rounded-lg"><button type="button" id="select-profile-image" class="bg-purple-600 text-white px-4 py-2 rounded-lg">اختر</button></div></div>
+                <div><label class="block text-gray-700 mb-2">وصف الموقع</label><textarea id="settings-site-description" class="w-full p-2 border rounded-lg" rows="3"></textarea></div>
+                <div class="border-t pt-6"><h4 class="font-bold mb-4">روابط التواصل الاجتماعي</h4><div class="space-y-4"><div><label>يوتيوب</label><input type="url" id="settings-youtube" class="w-full p-2 border rounded-lg"></div><div><label>ديسكورد</label><input type="url" id="settings-discord" class="w-full p-2 border rounded-lg"></div><div><label>جيت هب</label><input type="url" id="settings-github" class="w-full p-2 border rounded-lg"></div><div><label>رابط الدعم</label><input type="url" id="settings-kofi" class="w-full p-2 border rounded-lg"></div></div></div>
                 <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary">حفظ جميع الإعدادات</button>
             </form>
         </div>
@@ -859,19 +637,13 @@
         <div class="modal-content max-w-4xl w-full p-6">
             <div class="flex justify-between items-center mb-6">
                 <h3 id="view-article-title" class="text-2xl font-bold text-primary"></h3>
-                <button id="close-view-article" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button id="close-view-article" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
             </div>
-            
             <div id="view-article-meta" class="flex items-center gap-4 text-sm text-gray-500 mb-6"></div>
             <div id="view-article-image" class="mb-6"></div>
             <div id="view-article-content" class="article-content prose prose-lg max-w-none"></div>
-            
             <div class="flex justify-end gap-2 mt-6 pt-4 border-t">
-                <button id="edit-article-from-view" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary hidden admin-only">
-                    <i class="fas fa-edit ml-2"></i>تعديل
-                </button>
+                <button id="edit-article-from-view" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary hidden admin-only"><i class="fas fa-edit ml-2"></i>تعديل</button>
             </div>
         </div>
     </div>
@@ -967,7 +739,6 @@
             { id: 4, url: "https://picsum.photos/400/400?random=100", name: "عن فلكرين", date: new Date().toISOString().split('T')[0] }
         ];
 
-        // روابط سريعة كاملة
         let navigationItems = JSON.parse(localStorage.getItem('falkreen_navigation')) || [
             { label: "الرئيسية", href: "#", icon: "fas fa-home", page: "home" },
             { label: "عن فلكرين", href: "#", icon: "fas fa-info-circle", page: "about" },
@@ -1103,7 +874,7 @@
 
         function renderNavigation() {
             document.getElementById('nav-list').innerHTML = navigationItems.map(item => 
-                `<li><a href="#" onclick="showPage('${item.page}'); return false;" class="flex items-center hover:text-accent transition duration-300">
+                `<li><a href="#" onclick="window.showPage('${item.page}'); return false;" class="flex items-center hover:text-accent transition duration-300">
                     <i class="${item.icon} ml-2"></i>${item.label}
                 </a></li>`
             ).join('');
@@ -1545,18 +1316,32 @@
 
         // ==================== أحداث ====================
         function setupEventListeners() {
-            // تسجيل الدخول
-            document.getElementById('login-btn').addEventListener('click', () => {
-                if (localStorage.getItem('falkreen_logged_in') === 'true') {
+            // تسجيل الدخول - زر الدخول/الخروج
+            const loginBtn = document.getElementById('login-btn');
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isLoggedIn = localStorage.getItem('falkreen_logged_in') === 'true';
+                if (isLoggedIn) {
+                    // تسجيل الخروج
                     localStorage.removeItem('falkreen_logged_in');
                     updateUIForLogin(false);
+                    // إخفاء أي نوافذ مفتوحة
+                    document.querySelectorAll('.modal.active').forEach(m => m.classList.remove('active'));
+                    document.body.classList.remove('modal-open');
                 } else {
-                    document.getElementById('login-modal').classList.add('active');
+                    // فتح نافذة تسجيل الدخول
+                    const modal = document.getElementById('login-modal');
+                    modal.classList.add('active');
                     document.body.classList.add('modal-open');
+                    // تنظيف حقول الإدخال
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('login-error').classList.add('hidden');
                 }
             });
 
-            document.getElementById('login-form').addEventListener('submit', (e) => {
+            // إرسال نموذج تسجيل الدخول
+            document.getElementById('login-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
@@ -1566,15 +1351,15 @@
                     document.getElementById('login-modal').classList.remove('active');
                     document.body.classList.remove('modal-open');
                     updateUIForLogin(true);
-                    document.getElementById('login-error').classList.add('hidden');
                 } else {
                     document.getElementById('login-error').classList.remove('hidden');
                 }
             });
 
-            document.getElementById('login-modal').addEventListener('click', (e) => {
-                if (e.target === e.currentTarget) {
-                    e.target.classList.remove('active');
+            // إغلاق نافذة تسجيل الدخول عند النقر على الخلفية
+            document.getElementById('login-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
                     document.body.classList.remove('modal-open');
                 }
             });
