@@ -176,6 +176,10 @@
             transform: translateY(0);
         }
 
+        .modal-content.large {
+            max-width: 900px;
+        }
+
         /* تنسيق شريط الأدمن */
         .admin-toolbar {
             position: fixed;
@@ -369,32 +373,6 @@
 
         .admin-only.visible {
             display: block;
-        }
-
-        /* تنسيق صفحة الخطأ */
-        .error-page {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .error-page i {
-            font-size: 4rem;
-            color: #ef4444;
-            margin-bottom: 1rem;
-        }
-
-        /* تنسيق التبويبات */
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-
-        .tab-btn.active {
-            border-bottom-color: #667eea;
-            color: #667eea;
         }
     </style>
 </head>
@@ -700,7 +678,7 @@
 
     <!-- مودال المقالات -->
     <div id="articleModal" class="modal">
-        <div class="modal-content p-6 max-w-4xl">
+        <div class="modal-content large p-6">
             <div class="flex items-center justify-between mb-6">
                 <h3 id="articleModalTitle" class="text-2xl font-bold text-primary">إضافة مقال جديد</h3>
                 <button onclick="closeModal('articleModal')" class="text-gray-500 hover:text-gray-700">
@@ -734,7 +712,7 @@
                     <label class="block text-gray-700 mb-2">صورة المقال</label>
                     <div class="flex gap-2">
                         <input type="text" id="articleImage" class="form-input flex-1" placeholder="رابط الصورة">
-                        <button type="button" onclick="openImageLibrary('article')" class="btn-primary">
+                        <button type="button" onclick="openImageLibrary('articleImage')" class="btn-primary">
                             <i class="fas fa-image"></i>
                         </button>
                     </div>
@@ -750,8 +728,15 @@
                 </div>
                 
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">المحتوى (Markdown)</label>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-gray-700">المحتوى (Markdown)</label>
+                        <button type="button" onclick="openImageLibrary('articleContent')" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700">
+                            <i class="fas fa-image ml-1"></i>
+                            إدراج صورة
+                        </button>
+                    </div>
                     <textarea id="articleContent" class="form-input" rows="10" required></textarea>
+                    <p class="text-sm text-gray-500 mt-1">يمكنك إدراج الصور باستخدام !\[وصف\](رابط)</p>
                 </div>
                 
                 <div class="flex gap-2 justify-end">
@@ -813,7 +798,7 @@
 
     <!-- مودال مكتبة الصور -->
     <div id="imageLibraryModal" class="modal">
-        <div class="modal-content p-6 max-w-4xl">
+        <div class="modal-content large p-6">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-2xl font-bold text-primary">مكتبة الصور</h3>
                 <button onclick="closeModal('imageLibraryModal')" class="text-gray-500 hover:text-gray-700">
@@ -844,7 +829,7 @@
 
     <!-- مودال عرض المقال -->
     <div id="viewArticleModal" class="modal">
-        <div class="modal-content p-6 max-w-4xl">
+        <div class="modal-content large p-6">
             <div class="flex items-center justify-between mb-6">
                 <h3 id="viewArticleTitle" class="text-2xl font-bold text-primary"></h3>
                 <button onclick="closeModal('viewArticleModal')" class="text-gray-500 hover:text-gray-700">
@@ -1115,14 +1100,26 @@
             if (currentImageTarget === 'profile') {
                 document.getElementById('profileImage').src = url;
                 siteData.profile.image = url;
+                localStorage.setItem('falkrein_data', JSON.stringify(siteData));
             } else if (currentImageTarget === 'aboutPage') {
                 document.getElementById('aboutPageImage').src = url;
                 siteData.aboutImage.image = url;
-            } else if (currentImageTarget === 'article') {
+                localStorage.setItem('falkrein_data', JSON.stringify(siteData));
+            } else if (currentImageTarget === 'articleImage') {
                 document.getElementById('articleImage').value = url;
+            } else if (currentImageTarget === 'articleContent') {
+                // إدراج الصورة في محتوى المقال
+                const textarea = document.getElementById('articleContent');
+                const cursorPos = textarea.selectionStart;
+                const textBefore = textarea.value.substring(0, cursorPos);
+                const textAfter = textarea.value.substring(cursorPos);
+                const imageMarkdown = `![صورة](${url})`;
+                textarea.value = textBefore + imageMarkdown + textAfter;
+                // تحديث موضع المؤشر
+                textarea.selectionStart = textarea.selectionEnd = cursorPos + imageMarkdown.length;
+                textarea.focus();
             }
             
-            localStorage.setItem('falkrein_data', JSON.stringify(siteData));
             closeModal('imageLibraryModal');
         };
 
@@ -1159,10 +1156,10 @@
                 document.getElementById('articleId').value = article.id;
                 document.getElementById('articleTitle').value = article.title;
                 document.getElementById('articleExcerpt').value = article.excerpt;
-                document.getElementById('articleImage').value = article.image;
+                document.getElementById('articleImage').value = article.image || '';
                 document.getElementById('articleContent').value = article.content;
-                document.getElementById('articleStatus').value = article.status;
-                document.getElementById('articleCategory').value = article.category;
+                document.getElementById('articleStatus').value = article.status || 'published';
+                document.getElementById('articleCategory').value = article.category || '';
             } else {
                 document.getElementById('articleForm').reset();
                 document.getElementById('articleId').value = '';
