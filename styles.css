@@ -1,0 +1,44 @@
+.blog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.article-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 15px 0;
+    direction: rtl;
+}
+
+.article-card img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.article-content {
+    padding: 15px;
+}
+
+.article-title {
+    font-size: 1.5em;
+    margin: 10px 0;
+    color: #333;
+}
+
+.article-excerpt {
+    font-size: 1em;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+    .article-card {
+        width: 95%;
+    }
+}
