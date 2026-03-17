@@ -1,9 +1,68 @@
-title: مدونتي
-email:  ktaha1171@gmail.com
+# الموقع والإعدادات الأساسية
+title: مدونتي المتطورة
+email: your-email@example.com
 description: >- 
-  هنا أكتب مقالاتي البسيطة.
+  مدونة احترافية تنشر أفضل المقالات التقنية والفكرية
 baseurl: ""
-url: "https://flkrin1171.github.io"
-theme: minima
+url: "https://username.github.io"
+twitter_username: yourusername
+github_username:  yourusername
+
+# إعدادات البناء
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:year/:month/:day/:title/
+paginate: 5
+paginate_path: "/page/:num/"
+timezone: Asia/Riyadh
+
+# إعدادات المؤلفين الافتراضية
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "مدير الموقع"
+      comments: true
+      image: /assets/images/default-post.jpg
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# الإضافات
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-archives
+  - jekyll-minifier
+
+# إعدادات الأرشفة
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive
+    tag: archive
+  permalinks:
+    category: /category/:name/
+    tag: /tag/:name/
+
+# إعدادات التعليقات (مؤقتاً بدون Disqus)
+comments:
+  provider: false
+
+# استبعاد الملفات غير الضرورية
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
