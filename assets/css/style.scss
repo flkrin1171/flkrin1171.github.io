@@ -153,4 +153,20 @@ footer {
   &:hover {
     background: #ff6b6b;
   }
+  // تأثيرات الأنمي
+.anime-particle {
+    position: fixed;
+    top: -50px;
+    color: rgba(255, 200, 200, 0.8);
+    z-index: 9999;
+    pointer-events: none;
+    animation: fall linear forwards;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
 }
