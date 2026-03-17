@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المدونة - فلكرين</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .posts-list {
+            text-align: right;
+            margin-top: 2rem;
+        }
+        
+        .post-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .post-item:hover {
+            transform: translateX(-5px);
+        }
+        
+        .post-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-title a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .post-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .post-date {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+        
+        .post-excerpt {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+        
+        .read-more:hover {
+            opacity: 1;
+        }
+        
+        .back-home {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+        
+        .back-home:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-home">← العودة للرئيسية</a>
+            <h1 class="logo">المدونة</h1>
+            <p class="subtitle">آخر المقالات والأفكار</p>
+        </header>
+
+        <main>
+            <div class="posts-list">
+                <!-- مثال لمقال 1 -->
+                <article class="post-item">
+                    <h2 class="post-title">
+                        <a href="post1.html">مقدمة في الشبكات للمبتدئين</a>
+                    </h2>
+                    <div class="post-date">1 أبريل 2025</div>
+                    <p class="post-excerpt">
+                        في هذا المقال سنتعرف على أساسيات الشبكات وكيف تعمل الإنترنت... 
+                    </p>
+                    <a href="post1.html" class="read-more">اقرأ المزيد ←</a>
+                </article>
+
+                <!-- مثال لمقال 2 -->
+                <article class="post-item">
+                    <h2 class="post-title">
+                        <a href="post2.html">أفضل أدوات المبرمجين في 2025</a>
+                    </h2>
+                    <div class="post-date">25 مارس 2025</div>
+                    <p class="post-excerpt">
+                        مجموعة من الأدوات التي ستجعل تجربة البرمجة أكثر متعة وإنتاجية...
+                    </p>
+                    <a href="post2.html" class="read-more">اقرأ المزيد ←</a>
+                </article>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2026 فلكرين - جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+</body>
+</html>
