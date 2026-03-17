@@ -1,0 +1,9 @@
+title: مدونتي
+email:  ktaha1171@gmail.com
+description: >- 
+  هنا أكتب مقالاتي البسيطة.
+baseurl: ""
+url: "https://flkrin1171.github.io"
+theme: minima
+plugins:
+  - jekyll-feed
