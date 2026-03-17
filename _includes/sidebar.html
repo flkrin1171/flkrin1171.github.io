@@ -1,0 +1,42 @@
+<aside class="sidebar">
+  <div class="widget">
+    <h3>عن الموقع</h3>
+    <p>{{ site.description }}</p>
+  </div>
+  
+  <div class="widget">
+    <h3>أحدث المقالات</h3>
+    <ul>
+      {% for post in site.posts limit:5 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <small>{{ post.date | date: "%Y-%m-%d" }}</small>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="widget">
+    <h3>التصنيفات</h3>
+    <ul>
+      {% for category in site.categories %}
+      <li>
+        <a href="/category/{{ category[0] | slugify }}">
+          {{ category[0] }} ({{ category[1].size }})
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="widget">
+    <h3>الوسوم الشائعة</h3>
+    <div class="tag-cloud">
+      {% for tag in site.tags %}
+      <a href="/tag/{{ tag[0] | slugify }}">
+        {{ tag[0] }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</aside>
