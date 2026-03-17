@@ -1,241 +1,261 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>فلكرين | مدونة الفيجوال نوفل</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-font-family:Cairo;
-background:#f8fafc;
-}
-
-.article img{
-border-radius:12px;
-margin:20px 0;
-max-width:100%;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-
-.editor{
-min-height:300px;
-border:2px dashed #6366f1;
-padding:20px;
-border-radius:12px;
-background:white;
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلكرين - محرر الفيجوال نوفل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .edit-highlight:hover { outline: 2px dashed #4f46e5; cursor: pointer; background: rgba(79, 70, 229, 0.05); }
+        .admin-mode .edit-highlight { outline: 2px solid #4f46e5; }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        #article-content-view img { border-radius: 12px; margin: 20px auto; shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
-
-<body>
-
-<header class="bg-indigo-600 text-white p-5">
-
-<h1 class="text-3xl font-bold">فلكرين</h1>
-<p>مدونة الفيجوال نوفل والترجمة</p>
-
-</header>
-
-<main class="max-w-6xl mx-auto p-6">
-
-<div class="flex justify-between mb-6">
-
-<h2 class="text-2xl font-bold">المقالات</h2>
-
-<button id="newPost"
-class="bg-indigo-600 text-white px-4 py-2 rounded">
-مقال جديد
-</button>
-
-</div>
-
-<div id="posts" class="grid md:grid-cols-3 gap-6"></div>
-
-</main>
-
-<!-- محرر المقال -->
-
-<div id="editorModal"
-class="fixed inset-0 bg-black/60 hidden items-center justify-center">
-
-<div class="bg-white p-6 w-full max-w-3xl rounded-xl">
-
-<h3 class="text-xl font-bold mb-4">محرر المقال</h3>
-
-<input id="title"
-placeholder="عنوان المقال"
-class="w-full border p-2 rounded mb-4">
-
-<div
-id="editor"
-contenteditable="true"
-class="editor"></div>
-
-<div class="flex gap-3 mt-4">
-
-<button id="save"
-class="bg-green-600 text-white px-4 py-2 rounded">
-حفظ
-</button>
-
-<button id="close"
-class="bg-gray-400 text-white px-4 py-2 rounded">
-إغلاق
-</button>
-
-</div>
-
-</div>
-</div>
-
-<script>
-
-const ADMIN_USER="flkrin1171"
-const ADMIN_PASS="Kareemiop123a@"
-
-let posts=JSON.parse(localStorage.getItem("posts")||"[]")
-
-const postsDiv=document.getElementById("posts")
-
-function renderPosts(){
-
-postsDiv.innerHTML=""
-
-posts.forEach((p,i)=>{
-
-postsDiv.innerHTML+=`
-
-<div class="bg-white rounded-xl shadow overflow-hidden">
-
-<img src="${p.image}" class="h-48 w-full object-cover">
-
-<div class="p-4">
-
-<h3 class="text-xl font-bold">${p.title}</h3>
-
-<button onclick="openPost(${i})"
-class="text-indigo-600 mt-2">
-قراءة
-</button>
-
-</div>
-
-</div>
-`
-
-})
-
-}
-
-function openPost(i){
-
-const post=posts[i]
-
-document.body.innerHTML=`
-
-<div class="max-w-4xl mx-auto p-8">
-
-<h1 class="text-4xl font-bold mb-6">${post.title}</h1>
-
-<div class="article">${marked.parse(post.content)}</div>
-
-<a href="index.html"
-class="text-indigo-600 mt-8 block">
-العودة
-</a>
-
-</div>
-`
-
-}
-
-document.getElementById("newPost").onclick=()=>{
-
-const u=prompt("اسم المستخدم")
-
-const p=prompt("كلمة المرور")
-
-if(u!==ADMIN_USER||p!==ADMIN_PASS){
-
-alert("غير مصرح")
-
-return
-
-}
-
-document.getElementById("editorModal").classList.remove("hidden")
-document.getElementById("editorModal").classList.add("flex")
-
-}
-
-document.getElementById("close").onclick=()=>{
-
-document.getElementById("editorModal").classList.add("hidden")
-
-}
-
-document.getElementById("save").onclick=()=>{
-
-const title=document.getElementById("title").value
-
-const content=document.getElementById("editor").innerHTML
-
-const img=content.match(/<img.*?src="(.*?)"/)?.[1]||"https://picsum.photos/600/400"
-
-posts.unshift({
-
-title,
-
-content,
-
-image:img
-
-})
-
-localStorage.setItem("posts",JSON.stringify(posts))
-
-location.reload()
-
-}
-
-const editor=document.getElementById("editor")
-
-editor.addEventListener("dragover",e=>e.preventDefault())
-
-editor.addEventListener("drop",e=>{
-
-e.preventDefault()
-
-const file=e.dataTransfer.files[0]
-
-if(!file.type.startsWith("image"))return
-
-const reader=new FileReader()
-
-reader.onload=e=>{
-
-editor.innerHTML+=`<img src="${e.target.result}">`
-
-}
-
-reader.readAsDataURL(file)
-
-})
-
-renderPosts()
-
-</script>
-
+<body class="bg-slate-50 text-slate-900">
+
+    <div id="admin-bar" class="fixed bottom-6 left-6 z-50 flex flex-col gap-3">
+        <button onclick="toggleAdminMode()" class="bg-indigo-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition" title="تبديل وضع التحرير">
+            <i class="fas fa-user-shield"></i>
+        </button>
+        <div id="admin-tools" class="hidden flex flex-col gap-3">
+            <button onclick="openArticleModal()" class="bg-emerald-500 text-white p-4 rounded-full shadow-lg hover:scale-110 transition"><i class="fas fa-plus"></i></button>
+            <button onclick="saveToPC()" class="bg-amber-500 text-white p-4 rounded-full shadow-lg hover:scale-110 transition"><i class="fas fa-save"></i></button>
+        </div>
+    </div>
+
+    <nav class="glass-nav sticky top-0 z-40 border-b border-slate-200">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 id="site-name" class="text-2xl font-bold text-indigo-700 edit-highlight" onclick="editStaticText('site-name', 'site', 'name')">فلكرين</h1>
+            <div class="space-x-4 space-x-reverse text-sm font-medium">
+                <a href="#" onclick="showSection('home')" class="hover:text-indigo-600">الرئيسية</a>
+                <a href="#" onclick="showSection('about')" class="hover:text-indigo-600">عن المدونة</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-12">
+        
+        <section id="home-section">
+            <header class="text-center mb-16">
+                <h2 id="hero-title" class="text-4xl font-extrabold mb-4 edit-highlight" onclick="editStaticText('hero-title', 'hero', 'title')">عالم الروايات المرئية</h2>
+                <p id="hero-desc" class="text-slate-500 max-w-2xl mx-auto edit-highlight" onclick="editStaticText('hero-desc', 'hero', 'desc')">استكشف مراجعات وترجمات لأحدث ألعاب الفيجوال نوفل اليابانية.</p>
+            </header>
+
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </section>
+
+        <section id="about-section" class="hidden max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-sm border border-slate-100">
+            <h2 id="about-title" class="text-3xl font-bold mb-6 text-indigo-700 edit-highlight" onclick="editStaticText('about-title', 'about', 'title')">من أنا؟</h2>
+            <div id="about-text" class="leading-relaxed text-slate-600 space-y-4 edit-highlight" onclick="editStaticText('about-text', 'about', 'content')">
+                مرحباً بك! أنا مترجم وعاشق للفن الياباني..
+            </div>
+        </section>
+
+        <section id="reader-section" class="hidden max-w-4xl mx-auto">
+            <button onclick="showSection('home')" class="mb-8 text-indigo-600 font-bold"><i class="fas fa-arrow-right ml-2"></i>العودة للمقالات</button>
+            <div id="article-full-view" class="bg-white p-8 md:p-12 rounded-3xl shadow-sm">
+                <img id="view-img" class="w-full h-80 object-cover rounded-2xl mb-8">
+                <h1 id="view-title" class="text-4xl font-bold mb-4"></h1>
+                <div class="flex gap-4 text-slate-400 mb-8 border-b pb-4">
+                    <span id="view-date"></span> | <span id="view-cat"></span>
+                </div>
+                <div id="view-content" class="prose prose-indigo prose-lg max-w-none leading-loose"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="article-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
+        <div class="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">إدارة المقال</h3>
+                <button onclick="closeModal()"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <input type="text" id="post-title" placeholder="عنوان المقال" class="w-full p-3 border rounded-xl">
+                    <input type="text" id="post-image" placeholder="رابط صورة الغلاف" class="w-full p-3 border rounded-xl">
+                    <select id="post-cat" class="w-full p-3 border rounded-xl">
+                        <option>مراجعة</option>
+                        <option>ترجمة</option>
+                        <option>أخبار</option>
+                    </select>
+                    <textarea id="post-excerpt" placeholder="وصف مختصر" class="w-full p-3 border rounded-xl h-24"></textarea>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold">المحتوى (Markdown)</label>
+                        <button onclick="alert('استخدم ![وصف](رابط) للصور')" class="text-xs text-indigo-500 underline">كيف أضيف صوراً؟</button>
+                    </div>
+                    <textarea id="post-content" placeholder="اكتب مقالك هنا..." class="w-full p-3 border rounded-xl h-64 font-mono"></textarea>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <button onclick="saveArticle()" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-bold">حفظ ونشر</button>
+                <button onclick="closeModal()" class="flex-1 bg-slate-100 py-3 rounded-xl font-bold">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- البيانات والتهيئة ---
+        let state = JSON.parse(localStorage.getItem('falkreen_db')) || {
+            site: { name: 'فلكرين', hero: {title: 'عالم الروايات المرئية', desc: 'استكشف مراجعات وترجمات الفيجوال نوفل.'}, about: {title: 'من أنا؟', content: 'أنا شغوف بترجمة الألعاب...'} },
+            articles: []
+        };
+
+        let isAdmin = false;
+        let editingId = null;
+
+        function init() {
+            renderArticles();
+            updateStaticTexts();
+        }
+
+        function save() {
+            localStorage.setItem('falkreen_db', JSON.stringify(state));
+            renderArticles();
+        }
+
+        // --- نظام التعديل ---
+        function toggleAdminMode() {
+            isAdmin = !isAdmin;
+            document.body.classList.toggle('admin-mode', isAdmin);
+            document.getElementById('admin-tools').classList.toggle('hidden', !isAdmin);
+            alert(isAdmin ? "تم تفعيل وضع التحرير. اضغط على أي نص لتعديله!" : "تم الخروج من وضع التحرير.");
+        }
+
+        function editStaticText(id, section, key) {
+            if(!isAdmin) return;
+            const newText = prompt("تعديل النص:", document.getElementById(id).innerText);
+            if(newText !== null) {
+                if(section === 'site') state.site.name = newText;
+                else state.site[section][key] = newText;
+                document.getElementById(id).innerText = newText;
+                save();
+            }
+        }
+
+        function updateStaticTexts() {
+            document.getElementById('site-name').innerText = state.site.name;
+            document.getElementById('hero-title').innerText = state.site.hero.title;
+            document.getElementById('hero-desc').innerText = state.site.hero.desc;
+            document.getElementById('about-title').innerText = state.site.about.title;
+            document.getElementById('about-text').innerText = state.site.about.content;
+        }
+
+        // --- إدارة المقالات ---
+        function renderArticles() {
+            const grid = document.getElementById('articles-grid');
+            grid.innerHTML = state.articles.map(art => `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition group">
+                    <img src="${art.image}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                    <div class="p-6">
+                        <span class="text-xs font-bold text-indigo-500 uppercase">${art.cat}</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">${art.title}</h3>
+                        <p class="text-slate-500 text-sm line-clamp-2 mb-4">${art.excerpt}</p>
+                        <div class="flex justify-between items-center">
+                            <button onclick="readArticle(${art.id})" class="text-indigo-600 font-bold text-sm">اقرأ المزيد</button>
+                            ${isAdmin ? `
+                                <div class="flex gap-2">
+                                    <button onclick="editArticle(${art.id})" class="text-blue-500"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteArticle(${art.id})" class="text-red-500"><i class="fas fa-trash"></i></button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function saveArticle() {
+            const art = {
+                id: editingId || Date.now(),
+                title: document.getElementById('post-title').value,
+                image: document.getElementById('post-image').value || 'https://images.unsplash.com/photo-1542751371-adc38448a05e',
+                cat: document.getElementById('post-cat').value,
+                excerpt: document.getElementById('post-excerpt').value,
+                content: document.getElementById('post-content').value,
+                date: new Date().toLocaleDateString('ar-EG')
+            };
+
+            if(editingId) {
+                const index = state.articles.findIndex(a => a.id === editingId);
+                state.articles[index] = art;
+            } else {
+                state.articles.unshift(art);
+            }
+            
+            save();
+            closeModal();
+            editingId = null;
+        }
+
+        function deleteArticle(id) {
+            if(confirm("هل أنت متأكد من حذف هذا المقال؟")) {
+                state.articles = state.articles.filter(a => a.id !== id);
+                save();
+            }
+        }
+
+        // --- الملاحة ---
+        function showSection(sec) {
+            ['home-section', 'about-section', 'reader-section'].forEach(s => document.getElementById(s).classList.add('hidden'));
+            document.getElementById(sec + '-section').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function readArticle(id) {
+            const art = state.articles.find(a => a.id === id);
+            document.getElementById('view-title').innerText = art.title;
+            document.getElementById('view-img').src = art.image;
+            document.getElementById('view-date').innerText = art.date;
+            document.getElementById('view-cat').innerText = art.cat;
+            document.getElementById('view-content').innerHTML = marked.parse(art.content);
+            showSection('reader');
+        }
+
+        // --- أدوات المساعدة ---
+        function openArticleModal() {
+            document.getElementById('article-modal').classList.remove('hidden');
+            document.getElementById('article-modal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('article-modal').classList.add('hidden');
+            document.querySelectorAll('#article-modal input, #article-modal textarea').forEach(i => i.value = '');
+        }
+
+        function editArticle(id) {
+            const art = state.articles.find(a => a.id === id);
+            editingId = id;
+            document.getElementById('post-title').value = art.title;
+            document.getElementById('post-image').value = art.image;
+            document.getElementById('post-cat').value = art.cat;
+            document.getElementById('post-excerpt').value = art.excerpt;
+            document.getElementById('post-content').value = art.content;
+            openArticleModal();
+        }
+
+        function saveToPC() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", "falkreen_backup.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            alert("تم تحميل نسخة احتياطية من مقالاتك!");
+        }
+
+        window.onload = init;
+    </script>
 </body>
 </html>
